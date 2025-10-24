@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 @Table(name = "department")
 @Data
@@ -19,5 +21,6 @@ public class DepartmentEntity {
     private String description;
     private boolean isActive;
     private LocalDateTime createdAt;
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
