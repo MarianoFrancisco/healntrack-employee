@@ -13,7 +13,7 @@ public class DeactivateDepartmentImpl implements DeactivateDepartment {
     private final StoreDepartment storeDepartment;
     private final FindDepartments findDepartments;
     
-    public DeactivateDepartmentImpl(StoreDepartment storeDepartment, FindDepartments findDepartments) {
+    public DeactivateDepartmentImpl(FindDepartments findDepartments, StoreDepartment storeDepartment) {
         this.storeDepartment = storeDepartment;
         this.findDepartments = findDepartments;
     }
@@ -25,7 +25,7 @@ public class DeactivateDepartmentImpl implements DeactivateDepartment {
 
         // TODO: Check for related active employees before deactivation
         department.deactivate();
-        
+
         storeDepartment.save(department);
     }
     
