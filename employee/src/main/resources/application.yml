@@ -27,5 +27,3 @@ eureka:
     service-url:
       defaultZone: http://${EUREKA_HOSTNAME:localhost}:${EUREKA_PORT:8761}/eureka/
 
-swagger:
-  api-gateway-url: ${API_GATEWAY_URL:http://localhost:8000/api/v1/employee}
