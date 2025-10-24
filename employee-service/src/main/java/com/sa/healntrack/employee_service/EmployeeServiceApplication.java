@@ -1,13 +1,13 @@
-package com.sa.healntrack.employee;
+package com.sa.healntrack.employee_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EmployeeApplication {
+public class EmployeeServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EmployeeApplication.class, args);
+		SpringApplication.run(EmployeeServiceApplication.class, args);
 	}
 
 }

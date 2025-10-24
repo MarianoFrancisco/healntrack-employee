@@ -1,4 +1,4 @@
-package com.sa.healntrack.employee.common.infrastructure.config;
+package com.sa.healntrack.employee_service.common.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
