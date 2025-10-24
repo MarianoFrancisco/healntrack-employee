@@ -1,7 +1,8 @@
 package com.sa.healntrack.employee_service.department.domain;
 
-import java.util.Objects;
+import lombok.Getter;
 
+@Getter
 public class Department {
 
     private final DepartmentCode code;
@@ -9,10 +10,10 @@ public class Department {
     private final String description;
     private boolean isActive;
 
-    public Department(DepartmentCode code,
+    public Department(String code,
                       String name,
                       String description) {
-        this.code = Objects.requireNonNull(code, "El código no puede ser nulo");
+        this.code = new DepartmentCode(code);
         this.name = validateName(name);
         this.description = normalizeDescription(description);
         this.isActive = true;
@@ -38,21 +39,5 @@ public class Department {
             return null;
         }
         return description.trim();
-    }
-
-    public DepartmentCode getCode() {
-        return code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isActive() {
-        return isActive;
     }
 }

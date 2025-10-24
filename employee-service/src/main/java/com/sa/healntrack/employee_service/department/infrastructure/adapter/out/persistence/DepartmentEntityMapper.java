@@ -1,13 +1,12 @@
 package com.sa.healntrack.employee_service.department.infrastructure.adapter.out.persistence;
 
 import com.sa.healntrack.employee_service.department.domain.Department;
-import com.sa.healntrack.employee_service.department.domain.DepartmentCode;
 
 public class DepartmentEntityMapper {
 
     public static Department toDomain(DepartmentEntity entity) {
         Department department = new Department(
-                new DepartmentCode(entity.getCode()),
+                entity.getCode(),
                 entity.getName(),
                 entity.getDescription()
         );
