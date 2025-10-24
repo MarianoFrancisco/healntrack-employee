@@ -1,0 +1,42 @@
+@rootUrl = http://localhost:8000/api/v1/departments
+
+### Crear un departamento
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "name": "Cocina",
+  "code": "COC-001",
+  "description": "Área de cocina del hospital"
+}
+
+### Actualizar un departamento
+PUT {{rootUrl}}
+Content-Type: application/json
+
+{
+  "code": "COC-001",
+  "name": "Cocina Central",
+  "description": "Área de cocina principal"
+}
+
+### Obtener un departamento por código
+GET {{rootUrl}}/COC-001
+
+### Obtener todos los departamentos
+GET {{rootUrl}}
+
+### Desactivar un departamento
+DELETE {{rootUrl}}/COC-001
+
+### Obtener departamentos filtrando por nombre
+GET {{rootUrl}}?name=Cocina
+
+### Obtener departamentos filtrando por código
+GET {{rootUrl}}?code=COC-001
+
+### Obtener departamentos activos
+GET {{rootUrl}}?isActive=true
+
+### Obtener departamentos inactivos
+GET {{rootUrl}}?isActive=false
