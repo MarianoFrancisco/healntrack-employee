@@ -11,13 +11,12 @@ Content-Type: application/json
 }
 
 ### Actualizar un departamento
-PUT {{rootUrl}}
+PUT {{rootUrl}}/COC-001
 Content-Type: application/json
 
 {
-  "code": "COC-001",
-  "name": "Cocina Central",
-  "description": "Área de cocina principal"
+  "name": "Cocina Central MODIFICADO 26",
+  "description": "Área de cocina principal octubre"
 }
 
 ### Obtener un departamento por código

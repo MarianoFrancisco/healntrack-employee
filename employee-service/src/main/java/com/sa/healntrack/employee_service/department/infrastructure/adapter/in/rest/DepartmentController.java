@@ -48,16 +48,16 @@ public class DepartmentController {
                 .body(DepartmentRestMapper.toResponseDTO(created));
     }
 
-    @PutMapping
+    @PutMapping("/{code}")
     public ResponseEntity<DepartmentResponseDTO> updateDepartment(
+            @PathVariable String code,
             @RequestBody @Valid UpdateDepartmentRequestDTO requestDTO) {
 
         UpdateDepartmentCommand command = new UpdateDepartmentCommand(
-                requestDTO.code(),
                 requestDTO.name(),
                 requestDTO.description());
 
-        Department updated = updateDepartment.updateDepartment(command);
+        Department updated = updateDepartment.updateDepartment(code, command);
         return ResponseEntity.ok(DepartmentRestMapper.toResponseDTO(updated));
     }
 
@@ -84,5 +84,4 @@ public class DepartmentController {
 
         return ResponseEntity.ok(response);
     }
-
 }

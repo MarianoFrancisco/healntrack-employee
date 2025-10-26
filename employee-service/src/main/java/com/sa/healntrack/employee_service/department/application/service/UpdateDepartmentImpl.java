@@ -21,9 +21,9 @@ public class UpdateDepartmentImpl implements UpdateDepartment {
     }
 
     @Override
-    public Department updateDepartment(UpdateDepartmentCommand command) {
-        Department existing = findDepartments.findDepartmentByCode(command.code())
-            .orElseThrow(() -> new DepartmentNotFoundException(command.code()));
+    public Department updateDepartment(String code, UpdateDepartmentCommand command) {
+        Department existing = findDepartments.findDepartmentByCode(code)
+            .orElseThrow(() -> new DepartmentNotFoundException(code));
 
         Department updated = DepartmentMapper.updateDepartment(existing, command);
         return storeDepartment.save(updated);
