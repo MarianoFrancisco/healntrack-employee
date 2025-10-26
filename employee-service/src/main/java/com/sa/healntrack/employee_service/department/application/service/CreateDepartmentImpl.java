@@ -1,5 +1,6 @@
 package com.sa.healntrack.employee_service.department.application.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sa.healntrack.employee_service.department.application.exception.DuplicateDepartmentException;
@@ -10,6 +11,7 @@ import com.sa.healntrack.employee_service.department.application.port.out.persis
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.StoreDepartment;
 import com.sa.healntrack.employee_service.department.domain.Department;
 
+@Service
 @Transactional(rollbackFor = Exception.class)
 public class CreateDepartmentImpl implements CreateDepartment {
     private final StoreDepartment storeDepartment;
@@ -22,7 +24,7 @@ public class CreateDepartmentImpl implements CreateDepartment {
 
     @Override
     public Department createDepartment(CreateDepartmentCommand command) {
-        if (findDepartments.existsByCode(command.code())) {
+        if (findDepartments.existsByCodeAndIsActive(command.code(), true)) {
             throw new DuplicateDepartmentException(command.code());
         }
         
@@ -30,5 +32,4 @@ public class CreateDepartmentImpl implements CreateDepartment {
         storeDepartment.save(department);
         return department;
     }
-    
 }

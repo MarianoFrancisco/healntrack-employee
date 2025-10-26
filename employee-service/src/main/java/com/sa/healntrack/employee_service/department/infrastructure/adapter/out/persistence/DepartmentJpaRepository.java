@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface DepartmentJpaRepository extends JpaRepository<DepartmentEntity, String>, JpaSpecificationExecutor<DepartmentEntity> {
     Optional<DepartmentEntity> findByCode(String code);
-    boolean existsByCode(String code);
+    boolean existsByCodeAndIsActive(String code, boolean isActive);
 }

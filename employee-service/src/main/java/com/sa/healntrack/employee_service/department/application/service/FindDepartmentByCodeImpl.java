@@ -1,5 +1,6 @@
 package com.sa.healntrack.employee_service.department.application.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sa.healntrack.employee_service.department.application.exception.DepartmentNotFoundException;
@@ -7,6 +8,7 @@ import com.sa.healntrack.employee_service.department.application.port.in.find_de
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
 import com.sa.healntrack.employee_service.department.domain.Department;
 
+@Service
 @Transactional(readOnly = true)
 public class FindDepartmentByCodeImpl implements FindDepartmentByCode {
     private final FindDepartments findDepartments;

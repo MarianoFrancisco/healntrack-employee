@@ -1,5 +1,6 @@
 package com.sa.healntrack.employee_service.department.application.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sa.healntrack.employee_service.department.application.exception.DepartmentNotFoundException;
@@ -8,6 +9,7 @@ import com.sa.healntrack.employee_service.department.application.port.out.persis
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.StoreDepartment;
 import com.sa.healntrack.employee_service.department.domain.Department;
 
+@Service
 @Transactional(rollbackFor = Exception.class)
 public class DeactivateDepartmentImpl implements DeactivateDepartment {
     private final StoreDepartment storeDepartment;
