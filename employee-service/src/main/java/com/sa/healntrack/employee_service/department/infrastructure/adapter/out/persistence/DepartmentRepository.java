@@ -29,10 +29,11 @@ public class DepartmentRepository implements FindDepartments, StoreDepartment {
     @Override
     public List<Department> findAllDepartments(FindAllDepartmentsQuery query) {
         Specification<DepartmentEntity> spec = Specification
-                .allOf(
-                        DepartmentSpecs.nameContains(query.name()),
-                        DepartmentSpecs.codeEquals(query.code()),
-                        DepartmentSpecs.activeEquals(query.isActive())
+                .anyOf(
+                        DepartmentSpecs.nameContains(query.searchTerm()),
+                        DepartmentSpecs.codeEquals(query.searchTerm()))
+                .and(
+                        DepartmentSpecs.activeEquals(query.isActive()) 
                 );
 
         return repository.findAll(spec)

@@ -5,9 +5,9 @@ POST {{rootUrl}}
 Content-Type: application/json
 
 {
-  "name": "Cocina",
-  "code": "COC-001",
-  "description": "Área de cocina del hospital"
+  "name": "Medicina General",
+  "code": "MED-001",
+  "description": "Área de medicina general del hospital"
 }
 
 ### Actualizar un departamento
@@ -29,10 +29,10 @@ GET {{rootUrl}}
 DELETE {{rootUrl}}/COC-001
 
 ### Obtener departamentos filtrando por nombre
-GET {{rootUrl}}?name=Cocina
+GET {{rootUrl}}?q=med&isActive=false
 
 ### Obtener departamentos filtrando por código
-GET {{rootUrl}}?code=COC-001
+GET {{rootUrl}}?q=Cocina
 
 ### Obtener departamentos activos
 GET {{rootUrl}}?isActive=true

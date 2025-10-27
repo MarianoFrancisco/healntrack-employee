@@ -1,17 +1,12 @@
 package com.sa.healntrack.employee_service.department.infrastructure.adapter.in.rest;
 
-import com.sa.healntrack.employee_service.department.application.port.in.create_department.CreateDepartment;
-import com.sa.healntrack.employee_service.department.application.port.in.update_department.UpdateDepartment;
-import com.sa.healntrack.employee_service.department.application.port.in.deactivate_department.DeactivateDepartment;
-import com.sa.healntrack.employee_service.department.application.port.in.find_all_departments.FindAllDepartments;
-import com.sa.healntrack.employee_service.department.application.port.in.create_department.CreateDepartmentCommand;
-import com.sa.healntrack.employee_service.department.application.port.in.update_department.UpdateDepartmentCommand;
-import com.sa.healntrack.employee_service.department.application.port.in.find_all_departments.FindAllDepartmentsQuery;
-import com.sa.healntrack.employee_service.department.application.port.in.find_department_by_code.FindDepartmentByCode;
 import com.sa.healntrack.employee_service.department.domain.Department;
-import com.sa.healntrack.employee_service.department.infrastructure.adapter.in.rest.dto.CreateDepartmentRequestDTO;
-import com.sa.healntrack.employee_service.department.infrastructure.adapter.in.rest.dto.UpdateDepartmentRequestDTO;
-import com.sa.healntrack.employee_service.department.infrastructure.adapter.in.rest.dto.DepartmentResponseDTO;
+import com.sa.healntrack.employee_service.department.application.port.in.deactivate_department.DeactivateDepartment;
+import com.sa.healntrack.employee_service.department.application.port.in.find_department_by_code.FindDepartmentByCode;
+import com.sa.healntrack.employee_service.department.application.port.in.update_department.*;
+import com.sa.healntrack.employee_service.department.application.port.in.create_department.*;
+import com.sa.healntrack.employee_service.department.application.port.in.find_all_departments.*;
+import com.sa.healntrack.employee_service.department.infrastructure.adapter.in.rest.dto.*;
 
 import lombok.RequiredArgsConstructor;
 
@@ -75,9 +70,13 @@ public class DepartmentController {
 
     @GetMapping
     public ResponseEntity<List<DepartmentResponseDTO>> getAllDepartments(
-            @Valid FindAllDepartmentsQuery requestDTO) {
+            @Valid FindDepartmentRequestDTO requestDTO) {
 
-        List<Department> departments = findAllDepartments.findAllDepartments(requestDTO);
+        FindAllDepartmentsQuery query = new FindAllDepartmentsQuery(
+                requestDTO.q(),
+                requestDTO.isActive()
+        );
+        List<Department> departments = findAllDepartments.findAllDepartments(query);
         List<DepartmentResponseDTO> response = departments.stream()
                 .map(DepartmentRestMapper::toResponseDTO)
                 .toList();
