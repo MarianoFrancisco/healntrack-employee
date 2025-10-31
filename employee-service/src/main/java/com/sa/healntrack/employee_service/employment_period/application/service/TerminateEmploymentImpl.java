@@ -8,6 +8,7 @@ import com.sa.healntrack.employee_service.common.application.exception.InvalidDa
 import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotFoundException;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.terminate_employment.TerminateEmployment;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.terminate_employment.TerminateEmploymentCommand;
+import com.sa.healntrack.employee_service.employment_period.application.port.out.FindDepartmentManagers;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindEmploymentPeriods;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.StoreEmployee;
@@ -23,16 +24,19 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
 
     private final FindEmployees findEmployees;
     private final FindEmploymentPeriods findEmploymentPeriods;
+    private final FindDepartmentManagers findDepartmentManagers;
     private final StoreEmployee storeEmployee;
     private final StoreEmploymentPeriod storeEmploymentPeriod;
 
     public TerminateEmploymentImpl(
             FindEmployees findEmployees,
             FindEmploymentPeriods findEmploymentPeriods,
+            FindDepartmentManagers findDepartmentManagers,
             StoreEmployee storeEmployee,
             StoreEmploymentPeriod storeEmploymentPeriod) {
         this.findEmployees = findEmployees;
         this.findEmploymentPeriods = findEmploymentPeriods;
+        this.findDepartmentManagers = findDepartmentManagers;
         this.storeEmployee = storeEmployee;
         this.storeEmploymentPeriod = storeEmploymentPeriod;
     }
@@ -63,6 +67,13 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
 
         lastPeriod.endPeriod(command.date());
         storeEmploymentPeriod.save(lastPeriod);
+
+        findDepartmentManagers.findDepartmentManagerByEmployee(employee)
+                .ifPresent(departmentManager -> {
+                    if (departmentManager.isActive()) {
+                        departmentManager.endManagement(command.date());
+                    }
+                });
 
         EmploymentPeriod terminationPeriod = new EmploymentPeriod(
                 EmploymentPeriodId.generate().value(),

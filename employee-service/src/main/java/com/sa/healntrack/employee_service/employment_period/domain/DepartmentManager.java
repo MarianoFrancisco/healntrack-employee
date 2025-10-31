@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.employment_period.domain.value.DepartmentManagerId;
 
 import lombok.Getter;
@@ -12,8 +13,9 @@ import lombok.Getter;
 public class DepartmentManager {
     private final DepartmentManagerId id;
     private final Employee employee;
+    private final Department department;
     private final LocalDate startDate;
-    private final LocalDate endDate;
+    private LocalDate endDate;
     private boolean isActive;
 
     public DepartmentManager(
@@ -22,9 +24,18 @@ public class DepartmentManager {
             LocalDate startDate) {
         this.id = new DepartmentManagerId(id);
         this.employee = Objects.requireNonNull(employee, "El empleado no puede ser nulo");
+        this.department = Objects.requireNonNull(employee.getDepartment(), "El empleado debe tener un area asignada");
         this.startDate = validateStartDate(startDate);
         this.endDate = validateEndDate(null);
         this.isActive = true;
+    }
+
+    public void endManagement(LocalDate endDate) {
+        if( !this.isActive) {
+            throw new IllegalStateException("La gestión ya ha sido finalizada");
+        }
+        this.endDate = validateEndDate(endDate);
+        this.isActive = false;
     }
 
     private LocalDate validateStartDate(LocalDate startDate) {
