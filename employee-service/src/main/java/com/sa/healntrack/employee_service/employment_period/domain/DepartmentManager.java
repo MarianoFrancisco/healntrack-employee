@@ -21,10 +21,11 @@ public class DepartmentManager {
     public DepartmentManager(
             UUID id,
             Employee employee,
+            Department department,
             LocalDate startDate) {
         this.id = new DepartmentManagerId(id);
         this.employee = Objects.requireNonNull(employee, "El empleado no puede ser nulo");
-        this.department = Objects.requireNonNull(employee.getDepartment(), "El empleado debe tener un area asignada");
+        this.department = validateDepartment(department);
         this.startDate = validateStartDate(startDate);
         this.endDate = validateEndDate(null);
         this.isActive = true;
@@ -36,6 +37,17 @@ public class DepartmentManager {
         }
         this.endDate = validateEndDate(endDate);
         this.isActive = false;
+    }
+
+    public Department validateDepartment(Department department) {
+        if (department == null) {
+            throw new IllegalArgumentException("El departamento no puede ser nulo");
+        }
+        if (department.getCode().equals(this.employee.getDepartment().getCode())) {
+            throw new IllegalArgumentException("El departamento debe coincidir con el departamento del empleado");
+            
+        }
+        return department;
     }
 
     private LocalDate validateStartDate(LocalDate startDate) {

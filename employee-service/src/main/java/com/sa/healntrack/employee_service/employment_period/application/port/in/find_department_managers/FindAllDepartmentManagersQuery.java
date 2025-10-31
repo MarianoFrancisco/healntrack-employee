@@ -5,8 +5,10 @@ import java.time.LocalDate;
 public record FindAllDepartmentManagersQuery(
     String employee,
     String department,
-    LocalDate fromDate,
-    LocalDate toDate,
+    LocalDate startDateFrom,
+    LocalDate startDateTo,
+    LocalDate endDateFrom,
+    LocalDate endDateTo,
     Boolean isActive
 
 ) {}

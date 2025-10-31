@@ -10,6 +10,5 @@ import com.sa.healntrack.employee_service.employment_period.domain.EmploymentPer
 
 public interface FindEmploymentPeriods {
     List<EmploymentPeriod> findAllEmploymentPeriods(FindAllEmploymentPeriodsQuery query);
-    boolean existsByEmployeeAndEndDate(Employee employee, LocalDate endDate);
     Optional<EmploymentPeriod> findByEmployeeAndEndDate(Employee employee, LocalDate endDate);
 }

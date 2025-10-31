@@ -11,10 +11,9 @@ public record HireEmployeeCommand(
     String phoneNumber,
     LocalDate birthDate,
     String departmentCode,
-    LocalDate startDate,
     BigDecimal salary,
     BigDecimal igssPercent,
     BigDecimal irtraPercent,
-    LocalDate date,
+    LocalDate startDate,
     String notes
 ) {}

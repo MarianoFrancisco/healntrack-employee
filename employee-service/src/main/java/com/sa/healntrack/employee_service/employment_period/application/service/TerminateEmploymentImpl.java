@@ -68,11 +68,9 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
         lastPeriod.endPeriod(command.date());
         storeEmploymentPeriod.save(lastPeriod);
 
-        findDepartmentManagers.findDepartmentManagerByEmployee(employee)
+        findDepartmentManagers.findDepartmentManagerByEmployeeAndIsActive(employee, true)
                 .ifPresent(departmentManager -> {
-                    if (departmentManager.isActive()) {
-                        departmentManager.endManagement(command.date());
-                    }
+                    departmentManager.endManagement(command.date());
                 });
 
         EmploymentPeriod terminationPeriod = new EmploymentPeriod(

@@ -2,6 +2,6 @@ package com.sa.healntrack.employee_service.employment_period.application.port.in
 
 public record FindAllEmployeesQuery(
     String searchTerm,
-    String departmentCode,
+    String department,
     Boolean isActive
 ) {}

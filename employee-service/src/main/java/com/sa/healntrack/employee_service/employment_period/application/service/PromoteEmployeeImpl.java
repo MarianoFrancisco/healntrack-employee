@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
 import com.sa.healntrack.employee_service.common.application.exception.InvalidDateRangeException;
+import com.sa.healntrack.employee_service.department.application.exception.DepartmentNotFoundException;
+import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
+import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.employment_period.application.exception.DuplicateManagerException;
 import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotFoundException;
-import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotInDepartmentException;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.promote_employee.PromoteEmployee;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.promote_employee.PromoteEmployeeCommand;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindDepartmentManagers;
@@ -30,6 +32,7 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
     private final FindEmployees findEmployees;
     private final FindEmploymentPeriods findEmploymentPeriods;
     private final FindDepartmentManagers findDepartmentManagers;
+    private final FindDepartments findDepartments;
     private final StoreEmploymentPeriod storeEmploymentPeriod;
     private final StoreDepartmentManager storeDepartmentManager;
     private final StoreEmployee storeEmployee;
@@ -38,12 +41,14 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
             FindEmployees findEmployees,
             FindEmploymentPeriods findEmploymentPeriods,
             FindDepartmentManagers findDepartmentManagers,
+            FindDepartments findDepartments,
             StoreEmploymentPeriod storeEmploymentPeriod,
             StoreDepartmentManager storeDepartmentManager,
             StoreEmployee storeEmployee) {
         this.findEmployees = findEmployees;
         this.findEmploymentPeriods = findEmploymentPeriods;
         this.findDepartmentManagers = findDepartmentManagers;
+        this.findDepartments = findDepartments;
         this.storeEmploymentPeriod = storeEmploymentPeriod;
         this.storeDepartmentManager = storeDepartmentManager;
         this.storeEmployee = storeEmployee;
@@ -54,12 +59,11 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
         Employee employee = findEmployees.findEmployeeByCui(cui)
                 .orElseThrow(() -> new EmployeeNotFoundException(cui));
 
-        if (!employee.getDepartment().getCode().toString().equals(command.departmentCode())) {
-            throw new EmployeeNotInDepartmentException(employee.getFullname(), command.departmentCode());
-        }
+        Department department = findDepartments.findDepartmentByCode(command.departmentCode())
+                .orElseThrow(() -> new DepartmentNotFoundException(command.departmentCode()));
 
-        if (findDepartmentManagers.existByDepartmentCodeAndIsActive(command.departmentCode(), true)) {
-            throw new DuplicateManagerException(command.departmentCode());
+        if (findDepartmentManagers.existByDepartmentAndIsActive(department, true)) {
+            throw new DuplicateManagerException(department.getCode().toString());
         }
 
         EmploymentPeriod lastPeriod = findEmploymentPeriods.findByEmployeeAndEndDate(employee, null)
@@ -88,6 +92,7 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
         DepartmentManager newManager = new DepartmentManager(
                 UUID.randomUUID(),
                 employee,
+                department,
                 command.date());
         storeDepartmentManager.save(newManager);
 
