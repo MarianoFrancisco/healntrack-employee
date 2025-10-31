@@ -3,18 +3,12 @@ package com.sa.healntrack.employee_service.employment_period.application.port.in
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record HireEmployeeCommand(
-    String cui,
-    String nit,
-    String fullname,
-    String email,
+public record RehireEmployeeCommand(
     String phoneNumber,
-    LocalDate birthDate,
     String departmentCode,
-    LocalDate startDate,
-    BigDecimal salary,
+    BigDecimal newSalary,
     BigDecimal igssPercent,
     BigDecimal irtraPercent,
-    LocalDate date,
+    LocalDate startDate,
     String notes
 ) {}

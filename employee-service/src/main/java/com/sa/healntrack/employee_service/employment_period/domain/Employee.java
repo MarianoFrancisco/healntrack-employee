@@ -2,6 +2,7 @@ package com.sa.healntrack.employee_service.employment_period.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.sa.healntrack.employee_service.department.domain.Department;
@@ -20,14 +21,14 @@ public class Employee {
     private final EmployeeId id;
     private final CUI cui;
     private final NIT nit;
-    private final String fullname;
     private final Email email;
-    private final PhoneNumber phoneNumber;
     private final LocalDate birthDate;
-    private final Department department;
-    private final BigDecimal salary;
-    private final BigDecimal igssPercent;
-    private final BigDecimal irtraPercent;
+    private String fullname;
+    private PhoneNumber phoneNumber;
+    private Department department;
+    private BigDecimal salary;
+    private BigDecimal igssPercent;
+    private BigDecimal irtraPercent;
     private boolean isActive;
 
     public Employee(
@@ -49,19 +50,53 @@ public class Employee {
         this.email = new Email(email);
         this.phoneNumber = new PhoneNumber(phoneNumber);
         this.birthDate = validateBirthDate(birthDate);
-        this.department = department;
-        this.salary = salary;
-        this.igssPercent = igssPercent;
-        this.irtraPercent = irtraPercent;
+        this.department = Objects.requireNonNull(department, "El empleado debe tener un area asignada");
+        this.salary = validateSalary(salary);
+        this.igssPercent = validatePercentage(igssPercent);
+        this.irtraPercent = validatePercentage(irtraPercent);
         this.isActive = true;
+    }
+
+    public void increaseSalary(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El monto a aumentar debe ser mayor que cero");
+        }
+        this.salary = this.salary.add(amount);
+    }
+
+    public void updateEmploymentInfo(
+            String fullname,
+            String phoneNumber,
+            BigDecimal igssPercent,
+            BigDecimal irtraPercent) {
+        this.fullname = validateName(fullname);
+        this.phoneNumber = new PhoneNumber(phoneNumber);
+        this.igssPercent = validatePercentage(igssPercent);
+        this.irtraPercent = validatePercentage(irtraPercent);
     }
 
     public void deactivate() {
+        if (!isActive) {
+            throw new IllegalStateException("El empleado ya está inactivo");
+        }
         this.isActive = false;
     }
 
-    public void activate() {
-        this.isActive = true;
+    public void rehire(
+            String phoneNumber,
+            Department newDepartment,
+            BigDecimal newSalary,
+            BigDecimal igssPercent,
+            BigDecimal irtraPercent) {
+        if (this.isActive) {
+            throw new IllegalStateException("No se puede recontratar un empleado que ya está activo");
+        }
+
+        this.phoneNumber = new PhoneNumber(phoneNumber);
+        this.department = Objects.requireNonNull(newDepartment, "El empleado debe tener un area asignada");
+        this.salary = validateSalary(newSalary);
+        this.igssPercent = validatePercentage(igssPercent);
+        this.irtraPercent = validatePercentage(irtraPercent);
     }
 
     private String validateName(String name) {
@@ -84,5 +119,25 @@ public class Employee {
         }
 
         return birthDate;
+    }
+
+    private BigDecimal validatePercentage(BigDecimal percentage) {
+        if (percentage == null) {
+            return BigDecimal.ZERO;
+        }
+
+        if (percentage.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(
+                    String.format("El porcentaje debe ser mayor o igual a 0"));
+        }
+
+        return percentage;
+    }
+
+    private BigDecimal validateSalary(BigDecimal salary) {
+        if (salary == null || salary.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("El salario no puede ser nulo o negativo");
+        }
+        return salary;
     }
 }

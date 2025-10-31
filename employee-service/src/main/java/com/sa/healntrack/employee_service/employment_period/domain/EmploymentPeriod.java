@@ -13,27 +13,30 @@ import lombok.Getter;
 public class EmploymentPeriod {
     private final EmploymentPeriodId id;
     private final Employee employee;
-    private final PeriodType periodType;
+    private final PeriodType type;
     private final LocalDate startDate;
-    private final LocalDate endDate;
+    private LocalDate endDate;
     private final BigDecimal salary;
     private final String notes;
 
     public EmploymentPeriod(
             UUID id,
             Employee employee,
-            PeriodType periodType,
+            PeriodType type,
             LocalDate startDate,
-            LocalDate endDate,
             BigDecimal salary,
             String notes) {
         this.id = new EmploymentPeriodId(id);
         this.employee = Objects.requireNonNull(employee, "El empleado no puede ser nulo");
-        this.periodType = Objects.requireNonNull(periodType, "El tipo del periodo no puede ser nulo");
+        this.type = Objects.requireNonNull(type, "El tipo del periodo no puede ser nulo");
         this.startDate = validateStartDate(startDate);
-        this.endDate = validateEndDate(endDate);
+        this.endDate = null;
         this.salary = validateSalary(salary);
-        this.notes = notes;
+        this.notes = notes != null ? notes : "";
+    }
+
+    public void endPeriod(LocalDate endDate) {
+        this.endDate = validateEndDate(endDate);
     }
 
     private LocalDate validateStartDate(LocalDate startDate) {
@@ -47,7 +50,10 @@ public class EmploymentPeriod {
     }
 
     private LocalDate validateEndDate(LocalDate endDate) {
-        if (endDate != null && endDate.isBefore(this.startDate)) {
+        if( endDate == null) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser nula");
+        }
+        if (endDate.isBefore(this.startDate)) {
             throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
         }
         return endDate;

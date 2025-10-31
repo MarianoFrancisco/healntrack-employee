@@ -1,6 +1,7 @@
 package com.sa.healntrack.employee_service.employment_period.domain;
 
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.sa.healntrack.employee_service.employment_period.domain.value.DepartmentManagerId;
@@ -20,7 +21,7 @@ public class DepartmentManager {
             Employee employee,
             LocalDate startDate) {
         this.id = new DepartmentManagerId(id);
-        this.employee = employee;
+        this.employee = Objects.requireNonNull(employee, "El empleado no puede ser nulo");
         this.startDate = validateStartDate(startDate);
         this.endDate = validateEndDate(null);
         this.isActive = true;
