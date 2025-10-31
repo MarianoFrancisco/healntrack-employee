@@ -11,5 +11,5 @@ import com.sa.healntrack.employee_service.employment_period.domain.Employee;
 public interface FindDepartmentManagers {
     List<DepartmentManager> findAllDepartmentManagers(FindAllDepartmentManagersQuery query);
     Optional<DepartmentManager> findDepartmentManagerByEmployeeAndIsActive(Employee employee, boolean isActive);
-    boolean existByDepartmentAndIsActive(Department department, boolean isActive);
+    boolean existsByDepartmentAndIsActive(Department department, boolean isActive);
 }

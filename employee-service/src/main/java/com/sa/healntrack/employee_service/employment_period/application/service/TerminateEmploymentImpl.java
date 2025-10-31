@@ -46,6 +46,8 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
 
         Employee employee = findEmployees.findEmployeeByCui(cui)
                 .orElseThrow(() -> new EmployeeNotFoundException(cui));
+        
+        employee.deactivate();
 
         if (!(command.terminationType() == PeriodType.DESPIDO ||
               command.terminationType() == PeriodType.RENUNCIA)) {
@@ -82,8 +84,6 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
                 command.reason()
         );
         storeEmploymentPeriod.save(terminationPeriod);
-
-        employee.deactivate();
         storeEmployee.save(employee);
 
         return employee;

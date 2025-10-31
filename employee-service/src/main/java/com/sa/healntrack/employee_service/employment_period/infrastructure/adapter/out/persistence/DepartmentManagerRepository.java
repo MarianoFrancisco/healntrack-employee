@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Repository;
 
 import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.department.infrastructure.adapter.out.persistence.DepartmentEntityMapper;
@@ -17,6 +18,7 @@ import com.sa.healntrack.employee_service.employment_period.infrastructure.adapt
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.out.persistence.mapper.EmployeeEntityMapper;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.out.persistence.spec.DepartmentManagerSpecs;
 
+@Repository
 public class DepartmentManagerRepository implements FindDepartmentManagers, StoreDepartmentManager {
     private final DepartmentManagerJpaRepository jpaRepository;
 
@@ -61,8 +63,8 @@ public class DepartmentManagerRepository implements FindDepartmentManagers, Stor
     }
 
     @Override
-    public boolean existByDepartmentAndIsActive(Department department, boolean isActive) {
-        return jpaRepository.existByDepartmentAndIsActive(
+    public boolean existsByDepartmentAndIsActive(Department department, boolean isActive) {
+        return jpaRepository.existsByDepartmentAndIsActive(
                 DepartmentEntityMapper.toEntity(department),
                 isActive);
     }

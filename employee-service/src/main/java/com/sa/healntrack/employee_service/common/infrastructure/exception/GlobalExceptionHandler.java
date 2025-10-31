@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.sa.healntrack.employee_service.common.application.exception.DuplicateEntityException;
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
+import com.sa.healntrack.employee_service.common.application.exception.InvalidDateRangeException;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -37,6 +38,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemDetail handleDuplicateNIT(DuplicateEntityException e) {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
         pd.setTitle("Duplicate Entity");
+        pd.setProperty("error_category", "Business Rule");
+        pd.setProperty("timestamp", Instant.now());
+        return pd;
+    }
+
+    @ExceptionHandler(InvalidDateRangeException.class)
+    ProblemDetail handleInvalidDateRange(InvalidDateRangeException e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        pd.setTitle("Invalid Date Range");
         pd.setProperty("error_category", "Business Rule");
         pd.setProperty("timestamp", Instant.now());
         return pd;
@@ -81,6 +91,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemDetail handleIllegalArgument(IllegalArgumentException e) {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
         pd.setTitle("Illegal Argument");
+        pd.setProperty("error_category", "Domain");
+        pd.setProperty("timestamp", Instant.now());
+        return pd;
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    ProblemDetail handleIllegalState(IllegalStateException e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        pd.setTitle("Illegal State");
         pd.setProperty("error_category", "Domain");
         pd.setProperty("timestamp", Instant.now());
         return pd;

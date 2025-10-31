@@ -131,6 +131,11 @@ public class Employee {
                     String.format("El porcentaje debe ser mayor o igual a 0"));
         }
 
+        if (percentage.compareTo(BigDecimal.ONE) >= 0) {
+            throw new IllegalArgumentException(
+                    String.format("El porcentaje debe ser menor a 1"));
+        }
+
         return percentage;
     }
 

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.sa.healntrack.employee_service.employment_period.application.port.in.find_employment_periods.FindAllEmploymentPeriodsQuery;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindEmploymentPeriods;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.StoreEmploymentPeriod;
@@ -13,6 +15,7 @@ import com.sa.healntrack.employee_service.employment_period.infrastructure.adapt
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.out.persistence.mapper.EmployeeEntityMapper;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.out.persistence.mapper.EmploymentPeriodEntityMapper;
 
+@Repository
 public class EmploymentPeriodRepository implements FindEmploymentPeriods, StoreEmploymentPeriod {
     private final EmploymentPeriodJpaRepository jpaRepository;
 

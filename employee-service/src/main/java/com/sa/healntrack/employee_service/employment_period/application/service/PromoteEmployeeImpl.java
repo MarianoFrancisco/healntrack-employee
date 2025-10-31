@@ -62,7 +62,7 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
         Department department = findDepartments.findDepartmentByCode(command.departmentCode())
                 .orElseThrow(() -> new DepartmentNotFoundException(command.departmentCode()));
 
-        if (findDepartmentManagers.existByDepartmentAndIsActive(department, true)) {
+        if (findDepartmentManagers.existsByDepartmentAndIsActive(department, true)) {
             throw new DuplicateManagerException(department.getCode().toString());
         }
 

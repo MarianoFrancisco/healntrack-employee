@@ -13,5 +13,5 @@ import com.sa.healntrack.employee_service.employment_period.infrastructure.adapt
 
 public interface DepartmentManagerJpaRepository extends JpaRepository<DepartmentManagerEntity, UUID>, JpaSpecificationExecutor<DepartmentManagerEntity> {
     Optional<DepartmentManagerEntity> findByEmployeeAndIsActive(EmployeeEntity employee, boolean isActive);
-    boolean existByDepartmentAndIsActive(DepartmentEntity department, boolean isActive);
+    boolean existsByDepartmentAndIsActive(DepartmentEntity department, boolean isActive);
 }

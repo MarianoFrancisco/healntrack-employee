@@ -18,7 +18,8 @@ public class EmployeeRestMapper {
                 DepartmentRestMapper.toResponseDTO(employee.getDepartment()),
                 employee.getSalary(),
                 employee.getIgssPercent(),
-                employee.getIrtraPercent()
+                employee.getIrtraPercent(),
+                employee.isActive()
         );
     }
 }

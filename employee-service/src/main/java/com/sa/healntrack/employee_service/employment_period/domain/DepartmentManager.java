@@ -43,7 +43,7 @@ public class DepartmentManager {
         if (department == null) {
             throw new IllegalArgumentException("El departamento no puede ser nulo");
         }
-        if (department.getCode().equals(this.employee.getDepartment().getCode())) {
+        if (!department.getCode().value().equals(this.employee.getDepartment().getCode().value())) {
             throw new IllegalArgumentException("El departamento debe coincidir con el departamento del empleado");
             
         }

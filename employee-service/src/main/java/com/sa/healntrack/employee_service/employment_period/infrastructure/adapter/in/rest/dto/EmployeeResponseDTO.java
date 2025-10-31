@@ -17,5 +17,6 @@ public record EmployeeResponseDTO(
     DepartmentResponseDTO department,
     BigDecimal salary,
     BigDecimal igssPercent,
-    BigDecimal irtraPercent
+    BigDecimal irtraPercent,
+    boolean isActive
 ) {}
