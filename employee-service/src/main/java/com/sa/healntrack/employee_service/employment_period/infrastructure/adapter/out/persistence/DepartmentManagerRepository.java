@@ -35,20 +35,21 @@ public class DepartmentManagerRepository implements FindDepartmentManagers, Stor
 
     @Override
     public List<DepartmentManager> findAllDepartmentManagers(FindAllDepartmentManagersQuery query) {
-        Specification<DepartmentManagerEntity> spec = Specification.
-                anyOf(
+        Specification<DepartmentManagerEntity> spec = Specification.allOf(
+            Specification.anyOf(
                     DepartmentManagerSpecs.employeeFullnameContains(query.employee()),
-                    DepartmentManagerSpecs.employeeCuiEquals(query.employee()),
+                    DepartmentManagerSpecs.employeeCuiEquals(query.employee())
+            ),
+            Specification.anyOf(
                     DepartmentManagerSpecs.departmentNameContains(query.department()),
-                    DepartmentManagerSpecs.departmentCodeEquals(query.department()),
-                    DepartmentManagerSpecs.startDateGreaterThanOrEqualTo(query.startDateFrom()),
-                    DepartmentManagerSpecs.startDateLessThanOrEqualTo(query.startDateTo()),
-                    DepartmentManagerSpecs.endDateGreaterThanOrEqualTo(query.endDateFrom()),
-                    DepartmentManagerSpecs.endDateLessThanOrEqualTo(query.endDateTo())
-                    )
-                .and(
-                    DepartmentManagerSpecs.activeEquals(query.isActive())
-                );
+                    DepartmentManagerSpecs.departmentCodeEquals(query.department())
+            ),
+            DepartmentManagerSpecs.startDateGreaterThanOrEqualTo(query.startDateFrom()),
+            DepartmentManagerSpecs.startDateLessThanOrEqualTo(query.startDateTo()),
+            DepartmentManagerSpecs.endDateGreaterThanOrEqualTo(query.endDateFrom()),
+            DepartmentManagerSpecs.endDateLessThanOrEqualTo(query.endDateTo()),
+            DepartmentManagerSpecs.activeEquals(query.isActive())
+        );
 
         return jpaRepository.findAll(spec)
                 .stream()

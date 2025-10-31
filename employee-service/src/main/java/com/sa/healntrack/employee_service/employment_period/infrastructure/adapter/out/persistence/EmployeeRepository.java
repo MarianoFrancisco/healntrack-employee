@@ -32,20 +32,21 @@ public class EmployeeRepository implements FindEmployees, StoreEmployee {
 
     @Override
     public List<Employee> findAllEmployees(FindAllEmployeesQuery query) {
-        Specification<EmployeeEntity> spec = Specification
-                .anyOf(
-                        EmployeeSpecs.fullnameContains(query.searchTerm()),
-                        EmployeeSpecs.cuiEquals(query.searchTerm()),
-                        EmployeeSpecs.emailEquals(query.searchTerm()),
-                        EmployeeSpecs.phoneNumberEquals(query.searchTerm()),
-                        EmployeeSpecs.nitEquals(query.searchTerm())
-                )
-                .and(
-                        EmployeeSpecs.departmentCodeEquals(query.department())
-                )
-                .and(
-                        EmployeeSpecs.activeEquals(query.isActive())
-                );
+        Specification<EmployeeEntity> spec = Specification.allOf(
+            Specification.anyOf(
+                EmployeeSpecs.fullnameContains(query.searchTerm()),
+                EmployeeSpecs.cuiEquals(query.searchTerm()),
+                EmployeeSpecs.emailEquals(query.searchTerm()),
+                EmployeeSpecs.phoneNumberEquals(query.searchTerm()),
+                EmployeeSpecs.nitEquals(query.searchTerm())
+            ),
+            Specification.anyOf(
+                EmployeeSpecs.departmentNameContains(query.department()),
+                EmployeeSpecs.departmentCodeEquals(query.department())
+            ),
+            EmployeeSpecs.activeEquals(query.isActive())
+        );
+
         return jpaRepository.findAll(spec)
                 .stream()
                 .map(EmployeeEntityMapper::toDomain)

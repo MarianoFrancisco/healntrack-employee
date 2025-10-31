@@ -171,3 +171,12 @@ Content-Type: application/json
   "departmentCode": "MED-025",
   "date": "2024-06-01"
 }
+
+### 1. Obtener todos los períodos de empleo (sin filtros)
+GET {{rootUrl}}/history
+
+### 2. Buscar períodos por empleado (nombre, CUI o NIT)
+GET {{rootUrl}}/history?employee=Juan
+
+### 3. Buscar períodos con múltiples filtros (empleado, departamento y fechas)
+GET {{rootUrl}}/history?employee=1234567890123&department=MED-025&startDateFrom=2025-01-01

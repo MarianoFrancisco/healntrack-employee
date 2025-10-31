@@ -7,13 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.sa.healntrack.employee_service.employment_period.application.port.in.find_employees.*;
+import com.sa.healntrack.employee_service.employment_period.application.port.in.find_employment_periods.FindAllEmploymentPeriods;
+import com.sa.healntrack.employee_service.employment_period.application.port.in.find_employment_periods.FindAllEmploymentPeriodsQuery;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.hire_employee.*;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.promote_employee.*;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.salary_increase.*;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.terminate_employment.*;
 import com.sa.healntrack.employee_service.employment_period.domain.Employee;
+import com.sa.healntrack.employee_service.employment_period.domain.EmploymentPeriod;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.in.rest.dto.*;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.in.rest.mapper.EmployeeRestMapper;
+import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.in.rest.mapper.EmploymentPeriodRestMapper;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +34,7 @@ public class EmployeeController {
     private final PromoteEmployee promoteEmployee;
     private final SalaryIncrease salaryIncrease;
     private final TerminateEmployment terminateEmployment;
+    private final FindAllEmploymentPeriods findAllEmploymentPeriods;
 
     @PostMapping
     public ResponseEntity<EmployeeResponseDTO> hireEmployee(
@@ -139,6 +144,26 @@ public class EmployeeController {
 
         Employee employee = terminateEmployment.terminateEmployment(cui, command);
         return ResponseEntity.ok(EmployeeRestMapper.toResponseDTO(employee));
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<EmploymentPeriodResponseDTO>> getAllEmploymentPeriods(
+                    @Valid FindAllEmploymentPeriodsRequestDTO requestDTO) {
+
+            FindAllEmploymentPeriodsQuery query = new FindAllEmploymentPeriodsQuery(
+                            requestDTO.employee(),
+                            requestDTO.department(),
+                            requestDTO.type(),
+                            requestDTO.startDateFrom(),
+                            requestDTO.startDateTo(),
+                            requestDTO.endDateFrom(),
+                            requestDTO.endDateTo());
+
+            List<EmploymentPeriod> employmentPeriods = findAllEmploymentPeriods.findAllEmploymentPeriods(query);
+            List<EmploymentPeriodResponseDTO> response = employmentPeriods.stream()
+                            .map(EmploymentPeriodRestMapper::toResponseDTO)
+                            .toList();
+            return ResponseEntity.ok(response);
     }
 }
 
