@@ -1,0 +1,173 @@
+@rootUrl = http://localhost:8005/api/v1/employees
+
+### 1. Contratar un nuevo empleado
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1234567890123",
+  "nit": "123456789",
+  "fullname": "Juan Pérez López",
+  "email": "juan.perez@hospital.com",
+  "phoneNumber": "12345678",
+  "birthDate": "1985-05-15",
+  "departmentCode": "MED-025",
+  "startDate": "2024-01-15",
+  "salary": 15000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como médico general"
+}
+
+### 2. Contratar otro empleado para pruebas
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "9876543210987",
+  "nit": "987654321",
+  "fullname": "María García Hernández",
+  "email": "maria.garcia@hospital.com",
+  "phoneNumber": "87654321",
+  "birthDate": "1990-08-22",
+  "departmentCode": "ENF-025",
+  "startDate": "2024-01-20",
+  "salary": 8000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Enfermera jefe"
+}
+
+### 3. Obtener todos los empleados
+GET {{rootUrl}}
+
+### 4. Obtener empleados con filtros
+GET {{rootUrl}}?q=Juan&department=MED-025&isActive=true
+
+### 5. Obtener empleado por CUI
+GET {{rootUrl}}/1234567890123
+
+### 6. Promover empleado a gerente de departamento
+POST {{rootUrl}}/1234567890123/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 5000.00,
+  "departmentCode": "MED-025",
+  "date": "2024-06-01",
+  "notes": "Ascenso a jefe de departamento de Medicina General"
+}
+
+### 7. Aumento de salario
+POST {{rootUrl}}/9876543210987/salary-increase
+Content-Type: application/json
+
+{
+  "salaryIncrease": 2000.00,
+  "date": "2024-06-15",
+  "notes": "Aumento por desempeño excepcional"
+}
+
+### 8. Terminar contrato de empleado
+DELETE {{rootUrl}}/9876543210987
+Content-Type: application/json
+
+{
+  "date": "2024-07-01",
+  "terminationType": "RENUNCIA",
+  "reason": "Renuncia voluntaria"
+}
+
+### 9. Recontratar empleado
+POST {{rootUrl}}/9876543210987/rehire
+Content-Type: application/json
+
+{
+  "phoneNumber": "99998888",
+  "departmentCode": "ADM-025",
+  "newSalary": 10000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "startDate": "2024-08-01",
+  "notes": "Recontratación en departamento administrativo"
+}
+
+### 10. Intentar promover a un empleado que ya es gerente (debería fallar)
+POST {{rootUrl}}/1234567890123/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 3000.00,
+  "departmentCode": "MED-025",
+  "date": "2024-07-01",
+  "notes": "Segundo ascenso - debería fallar por gerente duplicado"
+}
+
+### 11. Promover otro empleado a diferente departamento
+POST {{rootUrl}}/9876543210987/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 3000.00,
+  "departmentCode": "ADM-025",
+  "date": "2024-09-01",
+  "notes": "Ascenso a gerente administrativo"
+}
+
+### 12. Obtener empleados activos
+GET {{rootUrl}}?isActive=true
+
+### 13. Obtener empleados inactivos
+GET {{rootUrl}}?isActive=false
+
+### 14. Buscar empleados por nombre
+GET {{rootUrl}}?q=María
+
+### 15. Buscar empleados por departamento
+GET {{rootUrl}}?department=ADM-025
+
+### 16. Caso de error: Contratar empleado con CUI inválido
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "123",
+  "nit": "123456789",
+  "fullname": "Test Error",
+  "email": "test@hospital.com",
+  "phoneNumber": "12345678",
+  "birthDate": "1990-01-01",
+  "departmentCode": "MED-025",
+  "startDate": "2024-01-01",
+  "salary": 5000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01
+}
+
+### 17. Caso de error: Contratar empleado con departamento inexistente
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1112223334445",
+  "nit": "111222333",
+  "fullname": "Empleado Test",
+  "email": "test2@hospital.com",
+  "phoneNumber": "11112222",
+  "birthDate": "1995-03-10",
+  "departmentCode": "XXX-999",
+  "startDate": "2024-01-01",
+  "salary": 5000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01
+}
+
+### 18. Caso de error: Promover empleado inexistente
+POST {{rootUrl}}/0000000000000/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 1000.00,
+  "departmentCode": "MED-025",
+  "date": "2024-06-01"
+}
