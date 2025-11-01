@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.sa.healntrack.employee_service.common.application.exception.DuplicateEntityException;
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
 import com.sa.healntrack.employee_service.common.application.exception.InvalidDateRangeException;
-import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotInDepartmentException;
+import com.sa.healntrack.employee_service.employment.application.exception.EmployeeNotInDepartmentException;
 
 import java.time.Instant;
 import java.util.HashMap;

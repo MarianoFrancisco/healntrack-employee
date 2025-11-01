@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.sa.healntrack.employee_service.employment_period.domain.Employee;
+import com.sa.healntrack.employee_service.employment.domain.Employee;
 
 import lombok.Getter;
 
