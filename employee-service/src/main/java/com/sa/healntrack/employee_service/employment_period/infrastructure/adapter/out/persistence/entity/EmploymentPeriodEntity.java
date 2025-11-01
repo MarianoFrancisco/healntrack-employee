@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.sa.healntrack.employee_service.department.infrastructure.adapter.out.persistence.DepartmentEntity;
 import com.sa.healntrack.employee_service.employment_period.domain.PeriodType;
 
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class EmploymentPeriodEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", nullable = false)
     private EmployeeEntity employee;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_code", nullable = false)
+    private DepartmentEntity department;
 
     @Enumerated(EnumType.STRING)
     private PeriodType type;

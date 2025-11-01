@@ -8,7 +8,10 @@ import com.sa.healntrack.employee_service.employment_period.domain.PeriodType;
 
 public record EmploymentPeriodResponseDTO(
     UUID id,
-    EmployeeResponseDTO employee,
+    String employeeCUi,
+    String employeeFullname,
+    String departmentCode,
+    String departmentName,
     PeriodType type,
     LocalDate startDate,
     LocalDate endDate,

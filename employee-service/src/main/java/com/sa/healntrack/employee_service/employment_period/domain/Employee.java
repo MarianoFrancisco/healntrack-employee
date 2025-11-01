@@ -97,6 +97,7 @@ public class Employee {
         this.salary = validateSalary(newSalary);
         this.igssPercent = validatePercentage(igssPercent);
         this.irtraPercent = validatePercentage(irtraPercent);
+        this.isActive = true;
     }
 
     private String validateName(String name) {

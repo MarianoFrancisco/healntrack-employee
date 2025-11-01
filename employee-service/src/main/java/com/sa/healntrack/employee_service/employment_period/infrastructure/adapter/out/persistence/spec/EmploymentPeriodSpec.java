@@ -35,14 +35,14 @@ public class EmploymentPeriodSpec {
         return (root, query, criteriaBuilder) -> (departmentName == null || departmentName.isBlank())
                 ? null
                 : criteriaBuilder.like(
-                        criteriaBuilder.lower(root.join("employee").get("department").get("name")),
+                        criteriaBuilder.lower(root.join("department").get("name")),
                         "%" + departmentName.toLowerCase() + "%");
     }
 
     public static Specification<EmploymentPeriodEntity> departmentCodeEquals(String departmentCode) {
         return (root, query, criteriaBuilder) -> (departmentCode == null || departmentCode.isBlank())
                 ? null
-                : criteriaBuilder.equal(root.join("employee").get("department").get("code"), departmentCode);
+                : criteriaBuilder.equal(root.join("department").get("code"), departmentCode);
     }
 
     // Filtros por fechas

@@ -7,7 +7,10 @@ public class EmploymentPeriodRestMapper {
     public static EmploymentPeriodResponseDTO toResponseDTO(EmploymentPeriod employmentPeriod) {
         return new EmploymentPeriodResponseDTO(
                 employmentPeriod.getId().value(),
-                EmployeeRestMapper.toResponseDTO(employmentPeriod.getEmployee()),
+                employmentPeriod.getEmployee().getCui().value(),
+                employmentPeriod.getEmployee().getFullname(),
+                employmentPeriod.getDepartment().getCode().value(),
+                employmentPeriod.getDepartment().getName(),
                 employmentPeriod.getType(),
                 employmentPeriod.getStartDate(),
                 employmentPeriod.getEndDate(),

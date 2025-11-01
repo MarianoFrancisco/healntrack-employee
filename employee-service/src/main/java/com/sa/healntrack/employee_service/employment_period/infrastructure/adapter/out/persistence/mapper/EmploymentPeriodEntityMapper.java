@@ -1,5 +1,7 @@
 package com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.out.persistence.mapper;
 
+import com.sa.healntrack.employee_service.department.infrastructure.adapter.out.persistence.DepartmentEntity;
+import com.sa.healntrack.employee_service.department.infrastructure.adapter.out.persistence.DepartmentEntityMapper;
 import com.sa.healntrack.employee_service.employment_period.domain.*;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.out.persistence.entity.EmployeeEntity;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.out.persistence.entity.EmploymentPeriodEntity;
@@ -35,10 +37,12 @@ public class EmploymentPeriodEntityMapper {
         }
 
         EmployeeEntity employeeEntity = EmployeeEntityMapper.toEntity(period.getEmployee());
+        DepartmentEntity departmentEntity = DepartmentEntityMapper.toEntity(period.getDepartment());
 
         return EmploymentPeriodEntity.builder()
                 .id(period.getId().value())
                 .employee(employeeEntity)
+                .department(departmentEntity)
                 .type(period.getType())
                 .startDate(period.getStartDate())
                 .endDate(period.getEndDate())

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.employment_period.domain.value.EmploymentPeriodId;
 
 import lombok.Getter;
@@ -13,6 +14,7 @@ import lombok.Getter;
 public class EmploymentPeriod {
     private final EmploymentPeriodId id;
     private final Employee employee;
+    private final Department department;
     private final PeriodType type;
     private final LocalDate startDate;
     private LocalDate endDate;
@@ -28,6 +30,7 @@ public class EmploymentPeriod {
             String notes) {
         this.id = new EmploymentPeriodId(id);
         this.employee = Objects.requireNonNull(employee, "El empleado no puede ser nulo");
+        this.department = Objects.requireNonNull(employee.getDepartment(), "El departamento no puede ser nulo");
         this.type = Objects.requireNonNull(type, "El tipo del periodo no puede ser nulo");
         this.startDate = validateStartDate(startDate);
         this.endDate = null;
