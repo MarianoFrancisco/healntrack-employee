@@ -165,8 +165,9 @@ public class EmployeeController {
                 requestDTO.reason()
         );
 
-        Employee employee = terminateEmployment.terminateEmployment(cui, command);
-        return ResponseEntity.ok(EmployeeRestMapper.toResponseDTO(employee));
+        terminateEmployment.terminateEmployment(cui, command);
+        // return ResponseEntity.ok(EmployeeRestMapper.toResponseDTO(employee));
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/history")
