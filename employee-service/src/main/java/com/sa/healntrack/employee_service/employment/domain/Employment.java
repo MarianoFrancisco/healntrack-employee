@@ -39,27 +39,19 @@ public class Employment {
     }
 
     public void endPeriod(LocalDate endDate) {
-        this.endDate = validateEndDate(endDate);
+        Objects.requireNonNull(endDate, "La fecha de fin no puede ser nula");
+        if (endDate.isBefore(this.startDate)) {
+            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
+        }
+        this.endDate = endDate;
     }
 
     private LocalDate validateStartDate(LocalDate startDate) {
-        if (startDate == null) {
-            throw new IllegalArgumentException("La fecha de inicio no puede ser nula");
-        }
+        Objects.requireNonNull(startDate, "La fecha de inicio no puede ser nula");
         if (startDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de inicio no puede ser futura");
         }
         return startDate;
-    }
-
-    private LocalDate validateEndDate(LocalDate endDate) {
-        if( endDate == null) {
-            throw new IllegalArgumentException("La fecha de fin no puede ser nula");
-        }
-        if (endDate.isBefore(this.startDate)) {
-            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
-        }
-        return endDate;
     }
 
     private BigDecimal validateSalary(BigDecimal salary) {

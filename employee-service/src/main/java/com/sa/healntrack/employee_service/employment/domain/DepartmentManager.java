@@ -40,9 +40,7 @@ public class DepartmentManager {
     }
 
     private LocalDate validateStartDate(LocalDate startDate) {
-        if (startDate == null) {
-            throw new IllegalArgumentException("La fecha de inicio no puede ser nula");
-        }
+        Objects.requireNonNull(startDate, "La fecha de inicio no puede ser nula");
         if (startDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha de inicio no puede ser futura");
         }

@@ -1,6 +1,9 @@
 package com.sa.healntrack.employee_service.payroll.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.Getter;
@@ -8,32 +11,20 @@ import lombok.Getter;
 @Getter
 public class Payroll {
     private final PayrollId id;
-    private final LocalDate startDate;
-    private final LocalDate endDate;
+    private final List<PayrollItem> items;
+    private final PayrollPeriod period;
+    private BigDecimal totalGrossAmount;
+    private BigDecimal totalIgssDeduction;
+    private BigDecimal totalIrtraDeduction;
+    private BigDecimal totalNetAmount;
 
     public Payroll(UUID id, LocalDate startDate, LocalDate endDate) {
         this.id = new PayrollId(id);
-        this.startDate = validateStartDate(startDate);
-        this.endDate = validateEndDate(endDate);
-    }
-
-   private LocalDate validateStartDate(LocalDate startDate) {
-        if (startDate == null) {
-            throw new IllegalArgumentException("La fecha de inicio no puede ser nula");
-        }
-        if (startDate.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("La fecha de inicio no puede ser futura");
-        }
-        return startDate;
-    }
-
-    private LocalDate validateEndDate(LocalDate endDate) {
-        if (endDate == null) {
-            throw new IllegalArgumentException("La fecha de fin no puede ser nula");
-        }
-        if (endDate.isBefore(this.startDate)) {
-            throw new IllegalArgumentException("La fecha de fin no puede ser anterior a la fecha de inicio");
-        }
-        return endDate;
+        this.period = new PayrollPeriod(startDate, endDate);
+        this.items = new ArrayList<>();
+        this.totalGrossAmount = BigDecimal.ZERO;
+        this.totalIgssDeduction = BigDecimal.ZERO;
+        this.totalIrtraDeduction = BigDecimal.ZERO;
+        this.totalNetAmount = BigDecimal.ZERO;
     }
 }
