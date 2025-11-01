@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.sa.healntrack.employee_service.employment_period.application.port.in.find_department_managers.FindAllDepartmentManagers;
+import com.sa.healntrack.employee_service.employment_period.application.port.in.find_department_managers.FindAllDepartmentManagersQuery;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.find_employees.*;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.find_employment_periods.FindAllEmploymentPeriods;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.find_employment_periods.FindAllEmploymentPeriodsQuery;
@@ -13,9 +15,13 @@ import com.sa.healntrack.employee_service.employment_period.application.port.in.
 import com.sa.healntrack.employee_service.employment_period.application.port.in.promote_employee.*;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.salary_increase.*;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.terminate_employment.*;
+import com.sa.healntrack.employee_service.employment_period.application.port.in.update_employee.UpdateEmployee;
+import com.sa.healntrack.employee_service.employment_period.application.port.in.update_employee.UpdateEmployeeCommand;
+import com.sa.healntrack.employee_service.employment_period.domain.DepartmentManager;
 import com.sa.healntrack.employee_service.employment_period.domain.Employee;
 import com.sa.healntrack.employee_service.employment_period.domain.EmploymentPeriod;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.in.rest.dto.*;
+import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.in.rest.mapper.DepartmentManagerRestMapper;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.in.rest.mapper.EmployeeRestMapper;
 import com.sa.healntrack.employee_service.employment_period.infrastructure.adapter.in.rest.mapper.EmploymentPeriodRestMapper;
 
@@ -35,6 +41,8 @@ public class EmployeeController {
     private final SalaryIncrease salaryIncrease;
     private final TerminateEmployment terminateEmployment;
     private final FindAllEmploymentPeriods findAllEmploymentPeriods;
+    private final FindAllDepartmentManagers findAllDepartmentManagers;
+    private final UpdateEmployee updateEmployee;
 
     @PostMapping
     public ResponseEntity<EmployeeResponseDTO> hireEmployee(
@@ -58,6 +66,21 @@ public class EmployeeController {
         Employee employee = hireEmployee.hireEmployee(command);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(EmployeeRestMapper.toResponseDTO(employee));
+    }
+
+    @PutMapping("/{cui}")
+    public ResponseEntity<EmployeeResponseDTO> updateEmployee(
+                    @PathVariable String cui,
+                    @RequestBody @Valid UpdateEmployeeRequestDTO requestDTO) {
+
+            UpdateEmployeeCommand command = new UpdateEmployeeCommand(
+                            requestDTO.fullname(),
+                            requestDTO.phoneNumber(),
+                            requestDTO.igssPercent(),
+                            requestDTO.irtraPercent());
+
+            Employee employee = updateEmployee.updateEmployee(cui, command);
+            return ResponseEntity.ok(EmployeeRestMapper.toResponseDTO(employee));
     }
 
     @GetMapping("/{cui}")
@@ -165,5 +188,26 @@ public class EmployeeController {
                             .toList();
             return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/managers")
+    public ResponseEntity<List<DepartmentManagerResponseDTO>> getAllDepartmentManagers(
+            @Valid FindAllDepartmentManagersRequestDTO requestDTO) {
+        FindAllDepartmentManagersQuery query = new FindAllDepartmentManagersQuery(
+                requestDTO.employee(),
+                requestDTO.department(),
+                requestDTO.startDateFrom(),
+                requestDTO.startDateTo(),
+                requestDTO.endDateFrom(),
+                requestDTO.endDateTo(),
+                requestDTO.isActive()
+        );
+
+        List<DepartmentManager> departmentManagers = findAllDepartmentManagers.findAllDepartmentManagers(query);
+        List<DepartmentManagerResponseDTO> response = departmentManagers.stream()
+                .map(DepartmentManagerRestMapper::toResponseDTO)
+                .toList();
+        return ResponseEntity.ok(response);
+    }
+    
 }
 

@@ -1,5 +1,8 @@
 package com.sa.healntrack.employee_service.employment_period.application.service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotFoundException;
 import com.sa.healntrack.employee_service.employment_period.application.mapper.EmployeeMapper;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.update_employee.UpdateEmployee;
@@ -8,6 +11,8 @@ import com.sa.healntrack.employee_service.employment_period.application.port.out
 import com.sa.healntrack.employee_service.employment_period.application.port.out.StoreEmployee;
 import com.sa.healntrack.employee_service.employment_period.domain.Employee;
 
+@Service
+@Transactional(rollbackFor = Exception.class)
 public class UpdateEmployeeImpl implements UpdateEmployee{
     private final StoreEmployee storeEmployee;
     private final FindEmployees findEmployees;

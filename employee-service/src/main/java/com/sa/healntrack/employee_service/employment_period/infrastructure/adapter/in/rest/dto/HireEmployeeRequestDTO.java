@@ -42,9 +42,11 @@ public record HireEmployeeRequestDTO(
     BigDecimal salary,
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El porcentaje de IGSS no puede ser negativo")
+    @DecimalMax(value = "0.1", message = "El porcentaje de IGSS no puede ser mayor a 0.1")
     BigDecimal igssPercent,
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El porcentaje de IRTRA no puede ser negativo")
+    @DecimalMax(value = "0.1", message = "El porcentaje de IRTRA no puede ser mayor a 0.1")
     BigDecimal irtraPercent,
 
     String notes

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.sa.healntrack.employee_service.common.application.exception.DuplicateEntityException;
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
 import com.sa.healntrack.employee_service.common.application.exception.InvalidDateRangeException;
+import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotInDepartmentException;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -47,6 +48,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemDetail handleInvalidDateRange(InvalidDateRangeException e) {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
         pd.setTitle("Invalid Date Range");
+        pd.setProperty("error_category", "Business Rule");
+        pd.setProperty("timestamp", Instant.now());
+        return pd;
+    }
+
+    @ExceptionHandler(EmployeeNotInDepartmentException.class)
+    ProblemDetail handleEmployeeNotInDepartment(EmployeeNotInDepartmentException e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        pd.setTitle("Employee Not In Department");
         pd.setProperty("error_category", "Business Rule");
         pd.setProperty("timestamp", Instant.now());
         return pd;

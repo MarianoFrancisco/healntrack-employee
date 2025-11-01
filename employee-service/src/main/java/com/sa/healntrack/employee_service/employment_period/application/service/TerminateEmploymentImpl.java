@@ -11,6 +11,7 @@ import com.sa.healntrack.employee_service.employment_period.application.port.in.
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindDepartmentManagers;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindEmploymentPeriods;
+import com.sa.healntrack.employee_service.employment_period.application.port.out.StoreDepartmentManager;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.StoreEmployee;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.StoreEmploymentPeriod;
 import com.sa.healntrack.employee_service.employment_period.domain.Employee;
@@ -27,18 +28,21 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
     private final FindDepartmentManagers findDepartmentManagers;
     private final StoreEmployee storeEmployee;
     private final StoreEmploymentPeriod storeEmploymentPeriod;
+    private final StoreDepartmentManager storeDepartmentManager;
 
     public TerminateEmploymentImpl(
             FindEmployees findEmployees,
             FindEmploymentPeriods findEmploymentPeriods,
             FindDepartmentManagers findDepartmentManagers,
             StoreEmployee storeEmployee,
-            StoreEmploymentPeriod storeEmploymentPeriod) {
+            StoreEmploymentPeriod storeEmploymentPeriod,
+            StoreDepartmentManager storeDepartmentManager) {
         this.findEmployees = findEmployees;
         this.findEmploymentPeriods = findEmploymentPeriods;
         this.findDepartmentManagers = findDepartmentManagers;
         this.storeEmployee = storeEmployee;
         this.storeEmploymentPeriod = storeEmploymentPeriod;
+        this.storeDepartmentManager = storeDepartmentManager;
     }
 
     @Override
@@ -73,6 +77,7 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
         findDepartmentManagers.findDepartmentManagerByEmployeeAndIsActive(employee, true)
                 .ifPresent(departmentManager -> {
                     departmentManager.endManagement(command.date());
+                    storeDepartmentManager.save(departmentManager);
                 });
 
         EmploymentPeriod terminationPeriod = new EmploymentPeriod(

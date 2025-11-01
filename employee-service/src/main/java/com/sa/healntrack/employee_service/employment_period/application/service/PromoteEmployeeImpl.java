@@ -12,6 +12,7 @@ import com.sa.healntrack.employee_service.department.application.port.out.persis
 import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.employment_period.application.exception.DuplicateManagerException;
 import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotFoundException;
+import com.sa.healntrack.employee_service.employment_period.application.exception.EmployeeNotInDepartmentException;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.promote_employee.PromoteEmployee;
 import com.sa.healntrack.employee_service.employment_period.application.port.in.promote_employee.PromoteEmployeeCommand;
 import com.sa.healntrack.employee_service.employment_period.application.port.out.FindDepartmentManagers;
@@ -61,6 +62,10 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
 
         Department department = findDepartments.findDepartmentByCode(command.departmentCode())
                 .orElseThrow(() -> new DepartmentNotFoundException(command.departmentCode()));
+        
+        if (!department.getCode().value().equals(employee.getDepartment().getCode().value())) {
+            throw new EmployeeNotInDepartmentException(cui, department.getCode().value());
+        }
 
         if (findDepartmentManagers.existsByDepartmentAndIsActive(department, true)) {
             throw new DuplicateManagerException(department.getCode().toString());
