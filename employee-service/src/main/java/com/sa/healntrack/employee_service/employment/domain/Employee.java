@@ -12,9 +12,11 @@ import com.sa.healntrack.employee_service.employment.domain.value.EmployeeId;
 import com.sa.healntrack.employee_service.employment.domain.value.NIT;
 import com.sa.healntrack.employee_service.employment.domain.value.PhoneNumber;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(of = "cui")
 public class Employee {
     private static final int LEGAL_AGE = 18;
 
