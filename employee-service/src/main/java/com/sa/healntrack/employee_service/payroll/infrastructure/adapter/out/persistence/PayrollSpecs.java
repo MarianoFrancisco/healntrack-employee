@@ -6,54 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.sa.healntrack.employee_service.payroll.domain.PayrollType;
 
-import jakarta.persistence.criteria.Join;
-
 public class PayrollSpecs {
-
-    public static Specification<PayrollEntity> employeeFullnameContains(String fullname) {
-        return (root, query, cb) -> {
-            if (fullname == null || fullname.isBlank()) {
-                return null;
-            }
-            // Join con payroll.items -> employee
-            Join<PayrollEntity, PayrollItemEntity> items = root.join("items");
-            return cb.like(
-                    cb.lower(items.join("employee").get("fullname")),
-                    "%" + fullname.toLowerCase() + "%");
-        };
-    }
-
-    public static Specification<PayrollEntity> employeeCuiEquals(String cui) {
-        return (root, query, cb) -> {
-            if (cui == null || cui.isBlank()) {
-                return null;
-            }
-            Join<Object, Object> items = root.join("items");
-            return cb.equal(items.join("employee").get("cui"), cui);
-        };
-    }
-
-    public static Specification<PayrollEntity> departmentNameContains(String departmentName) {
-        return (root, query, cb) -> {
-            if (departmentName == null || departmentName.isBlank()) {
-                return null;
-            }
-            Join<Object, Object> items = root.join("items");
-            return cb.like(
-                    cb.lower(items.join("department").get("name")),
-                    "%" + departmentName.toLowerCase() + "%");
-        };
-    }
-
-    public static Specification<PayrollEntity> departmentCodeEquals(String departmentCode) {
-        return (root, query, cb) -> {
-            if (departmentCode == null || departmentCode.isBlank()) {
-                return null;
-            }
-            Join<Object, Object> items = root.join("items");
-            return cb.equal(items.join("department").get("code"), departmentCode);
-        };
-    }
 
     public static Specification<PayrollEntity> paydayGreaterThanOrEqualTo(LocalDate paydayFrom) {
         return (root, query, cb) -> (paydayFrom == null)

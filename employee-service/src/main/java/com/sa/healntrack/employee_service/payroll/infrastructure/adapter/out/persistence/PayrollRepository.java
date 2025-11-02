@@ -22,8 +22,8 @@ public class PayrollRepository implements FindPayrolls, StorePayroll {
 
     @Override
     public Payroll save(Payroll payroll) {
-        var entity = PayrollEntityMapper.toEntity(payroll);
-        var saved = jpaRepository.save(entity);
+        PayrollEntity entity = PayrollEntityMapper.toEntity(payroll);
+        PayrollEntity saved = jpaRepository.save(entity);
         return PayrollEntityMapper.toDomain(saved);
     }
 
@@ -31,14 +31,6 @@ public class PayrollRepository implements FindPayrolls, StorePayroll {
     public List<Payroll> findPayrolls(FindAllPayrollsQuery query) {
 
         Specification<PayrollEntity> spec = Specification.allOf(
-            Specification.anyOf(
-                    PayrollSpecs.employeeFullnameContains(query.employee()),
-                    PayrollSpecs.employeeCuiEquals(query.employee())
-            ),
-            Specification.anyOf(
-                    PayrollSpecs.departmentNameContains(query.department()),
-                    PayrollSpecs.departmentCodeEquals(query.department())
-            ),
             PayrollSpecs.paydayGreaterThanOrEqualTo(query.paydayFrom()),
             PayrollSpecs.paydayLessThanOrEqualTo(query.paydayTo()),
             PayrollSpecs.typeEquals(query.type()),

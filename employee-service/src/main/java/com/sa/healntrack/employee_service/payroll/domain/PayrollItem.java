@@ -33,7 +33,7 @@ public class PayrollItem {
             BigDecimal netSalary,
             String notes) {
         this.id = new PayrollItemId(id);
-        this.payroll = Objects.requireNonNull(payroll, "La nomina no puede ser nula");
+        this.payroll = payroll;
         this.employee = Objects.requireNonNull(employee, "El empleado no puede ser nulo");
         this.department = Objects.requireNonNull(department, "El departamento no puede ser nulo");
         this.grossSalary = Objects.requireNonNull(grossSalary, "El salario bruto no puede ser nulo");

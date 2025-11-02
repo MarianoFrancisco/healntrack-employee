@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.sa.healntrack.employee_service.payroll.domain.PayrollType;
 
@@ -43,7 +42,4 @@ public class PayrollEntity {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }

@@ -83,7 +83,7 @@ public class Payroll {
     private BigDecimal calculateDeduction(BigDecimal base, BigDecimal percent) {
         if (percent == null)
             return BigDecimal.ZERO;
-        return base.multiply(percent).divide(BigDecimal.valueOf(100));
+        return base.multiply(percent);
     }
 
     private LocalDate validatePayDay(LocalDate payDay) {

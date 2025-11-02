@@ -13,7 +13,7 @@ public class PayrollItemEntityMapper {
     public static PayrollItem toDomain(PayrollItemEntity entity) {
         return new PayrollItem(
                 entity.getId(),
-                PayrollEntityMapper.toDomain(entity.getPayroll()),
+                null,
                 EmployeeEntityMapper.toDomain(entity.getEmployee()),
                 DepartmentEntityMapper.toDomain(entity.getDepartment()),
                 entity.getGrossSalary(),
