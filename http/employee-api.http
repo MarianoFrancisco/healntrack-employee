@@ -1,4 +1,4 @@
-@rootUrl = http://localhost:8000/api/v1/employees
+@rootUrl = http://localhost:8005/api/v1/employees
 
 ### 1. Contratar un nuevo empleado
 POST {{rootUrl}}
@@ -285,3 +285,89 @@ GET {{rootUrl}}/managers
 
 ### 8. Verificar historial completo de Carlos
 GET {{rootUrl}}/history?employee=1234567890001
+
+### empleado 1
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000001",
+  "nit": "110000001",
+  "fullname": "Juan Pérez López",
+  "email": "juan.perez@hospital.com",
+  "phoneNumber": "55510001",
+  "birthDate": "1985-05-15",
+  "departmentCode": "MED-025",
+  "startDate": "2024-01-15",
+  "salary": 15000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como médico general"
+}
+
+### empleado 2
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000002",
+  "nit": "110000002",
+  "fullname": "Ana Gómez Martínez",
+  "email": "ana.gomez@hospital.com",
+  "phoneNumber": "55510002",
+  "birthDate": "1990-03-22",
+  "departmentCode": "MED-025",
+  "startDate": "2024-02-01",
+  "salary": 14000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como enfermera"
+}
+
+### empleado 3
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000003",
+  "nit": "110000003",
+  "fullname": "Carlos Méndez Rivera",
+  "email": "carlos.mendez@hospital.com",
+  "phoneNumber": "55510003",
+  "birthDate": "1982-11-10",
+  "departmentCode": "ADM-025",
+  "startDate": "2024-03-10",
+  "salary": 13000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como administrativo"
+}
+
+### empleado 4
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000004",
+  "nit": "110000004",
+  "fullname": "María López Castillo",
+  "email": "maria.lopez@hospital.com",
+  "phoneNumber": "55510004",
+  "birthDate": "1995-07-08",
+  "departmentCode": "ADM-025",
+  "startDate": "2024-04-01",
+  "salary": 12000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como asistente administrativo"
+}
+
+### Despedir empleado 2
+DELETE  {{rootUrl}}/1000000000002
+Content-Type: application/json
+
+{
+  "date": "2025-07-31",
+  "terminationType": "DESPIDO",
+  "reason": "Rendimiento insuficiente"
+}

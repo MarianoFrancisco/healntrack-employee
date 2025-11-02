@@ -1,0 +1,27 @@
+@rootUrl = http://localhost:8005/api/v1/payrolls
+### 1. Generar nómina para un periodo
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "startDate": "2025-07-01",
+  "endDate": "2025-07-31",
+  "payDay": "2025-07-31",
+  "type": "REGULAR"
+}
+
+### 2. Generar nómina para otro periodo de prueba
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "startDate": "2025-08-01",
+  "endDate": "2025-08-31",
+  "payDay": "2025-08-31",
+  "type": "REGULAR"
+}
+
+### 3. Obtener todas las nóminas del empleado 1
+GET http://localhost:8005/api/v1/payrolls?employee=1000000000002
+
+
