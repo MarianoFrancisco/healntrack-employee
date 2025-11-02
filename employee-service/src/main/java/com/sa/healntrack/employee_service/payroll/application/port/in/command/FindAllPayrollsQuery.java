@@ -9,5 +9,7 @@ public record FindAllPayrollsQuery(
     String department,
     LocalDate paydayFrom,
     LocalDate paydayTo,
+    LocalDate startDate,
+    LocalDate endDate,
     PayrollType type
 ) {}
