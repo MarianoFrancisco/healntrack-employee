@@ -73,5 +73,11 @@ public class EmployeeRepository implements FindEmployees, StoreEmployee {
     public boolean existByEmail(String email) {
         return jpaRepository.existsByEmail(email);
     }
+
+    @Override
+    public Optional<Employee> findEmployeeByEmail(String email) {
+        return jpaRepository.findByEmail(email)
+                .map(EmployeeEntityMapper::toDomain);
+    }
     
 }

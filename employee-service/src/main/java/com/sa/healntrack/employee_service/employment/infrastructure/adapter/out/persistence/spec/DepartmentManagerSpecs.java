@@ -21,6 +21,12 @@ public class DepartmentManagerSpecs {
                 : criteriaBuilder.equal(root.join("employee").get("cui"), cui);
     }
 
+    public static Specification<DepartmentManagerEntity> employeeEmailEquals(String email) {
+        return (root, query, criteriaBuilder) -> (email == null || email.isBlank())
+                ? null
+                : criteriaBuilder.equal(root.join("employee").get("email"), email);
+    }
+
     public static Specification<DepartmentManagerEntity> departmentNameContains(String departmentName) {
         return (root, query, criteriaBuilder) -> (departmentName == null || departmentName.isBlank())
                 ? null

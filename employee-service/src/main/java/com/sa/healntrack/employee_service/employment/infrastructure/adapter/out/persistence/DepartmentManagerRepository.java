@@ -69,4 +69,14 @@ public class DepartmentManagerRepository implements FindDepartmentManagers, Stor
                 DepartmentEntityMapper.toEntity(department),
                 isActive);
     }
+
+    @Override
+    public Optional<DepartmentManager> findByEmailAndIsActive(String email, boolean isActive) {
+        Specification<DepartmentManagerEntity> spec = Specification.allOf(
+                DepartmentManagerSpecs.employeeEmailEquals(email),
+                DepartmentManagerSpecs.activeEquals(isActive)
+        );
+        return jpaRepository.findOne(spec)
+                .map(DepartmentManagerEntityMapper::toDomain);
+    }
 }

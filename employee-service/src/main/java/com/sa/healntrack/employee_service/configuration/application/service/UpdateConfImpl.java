@@ -3,7 +3,7 @@ package com.sa.healntrack.employee_service.configuration.application.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sa.healntrack.employee_service.common.application.exception.ConfNotFoundException;
+import com.sa.healntrack.employee_service.configuration.application.exception.ConfNotFoundException;
 import com.sa.healntrack.employee_service.configuration.application.port.in.UpdateConf;
 import com.sa.healntrack.employee_service.configuration.application.port.out.FindConfs;
 import com.sa.healntrack.employee_service.configuration.application.port.out.StoreConf;

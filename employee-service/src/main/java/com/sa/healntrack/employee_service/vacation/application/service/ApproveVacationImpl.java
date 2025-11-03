@@ -1,0 +1,40 @@
+package com.sa.healntrack.employee_service.vacation.application.service;
+
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sa.healntrack.employee_service.employment.application.exception.DepartmentManagerNotFoundException;
+import com.sa.healntrack.employee_service.employment.application.port.out.FindDepartmentManagers;
+import com.sa.healntrack.employee_service.employment.domain.DepartmentManager;
+import com.sa.healntrack.employee_service.vacation.application.exception.VacationNotFoundException;
+import com.sa.healntrack.employee_service.vacation.application.port.in.ApproveVacation;
+import com.sa.healntrack.employee_service.vacation.application.port.in.command.ReviewVacationCommand;
+import com.sa.healntrack.employee_service.vacation.application.port.out.FindVacations;
+import com.sa.healntrack.employee_service.vacation.application.port.out.StoreVacation;
+import com.sa.healntrack.employee_service.vacation.domain.Vacation;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
+public class ApproveVacationImpl implements ApproveVacation {
+    private final FindVacations findVacations;
+    private final FindDepartmentManagers findDepartmentManagers;
+    private final StoreVacation storeVacation;
+
+    @Override
+    public void approveVacation(UUID id, ReviewVacationCommand command) {
+        Vacation vacation = findVacations.findById(id)
+                .orElseThrow(() -> new VacationNotFoundException(id));
+
+        DepartmentManager approver = findDepartmentManagers.findByEmailAndIsActive(command.reviewer(), true)
+                .orElseThrow(() -> new DepartmentManagerNotFoundException(command.reviewer()));
+
+        vacation.approve(approver, command.reviewedAt());
+
+        storeVacation.save(vacation);
+    }    
+}

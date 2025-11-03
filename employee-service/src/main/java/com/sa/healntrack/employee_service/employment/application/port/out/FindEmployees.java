@@ -9,6 +9,7 @@ import com.sa.healntrack.employee_service.employment.domain.Employee;
 public interface FindEmployees {
     List<Employee> findAllEmployees(FindAllEmployeesQuery query);
     Optional<Employee> findEmployeeByCui(String cui);
+    Optional<Employee> findEmployeeByEmail(String email);
     boolean existByCui(String cui);
     boolean existByNit(String nit);
     boolean existByEmail(String email);
