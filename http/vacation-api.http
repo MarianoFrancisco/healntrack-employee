@@ -1,0 +1,12 @@
+@rootUrl = http://localhost:8000/api/v1/employees/vacations/config
+
+### Obtener todas las configuraciones
+GET {{rootUrl}}
+
+### Actualizar una configuración de vacaciones
+PUT {{rootUrl}}/vacation_days
+Content-Type: application/json
+
+{
+  "value":10
+}
