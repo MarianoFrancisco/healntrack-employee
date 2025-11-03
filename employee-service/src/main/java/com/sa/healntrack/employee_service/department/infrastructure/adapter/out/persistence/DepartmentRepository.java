@@ -4,6 +4,9 @@ import com.sa.healntrack.employee_service.department.application.port.out.persis
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.StoreDepartment;
 import com.sa.healntrack.employee_service.department.application.port.in.find_all_departments.FindAllDepartmentsQuery;
 import com.sa.healntrack.employee_service.department.domain.Department;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class DepartmentRepository implements FindDepartments, StoreDepartment {
-
     private final DepartmentJpaRepository repository;
-
-    public DepartmentRepository(DepartmentJpaRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Department save(Department department) {

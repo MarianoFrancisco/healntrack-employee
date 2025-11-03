@@ -10,14 +10,13 @@ import com.sa.healntrack.employee_service.department.application.port.in.find_al
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
 import com.sa.healntrack.employee_service.department.domain.Department;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class FindAllDepartmentsImpl implements FindAllDepartments{
     private final FindDepartments findDepartments;
-
-    public FindAllDepartmentsImpl(FindDepartments findDepartments) {
-        this.findDepartments = findDepartments;
-    }
 
     @Override
     public List<Department> findAllDepartments(FindAllDepartmentsQuery query) {

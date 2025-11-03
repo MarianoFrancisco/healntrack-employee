@@ -11,16 +11,14 @@ import com.sa.healntrack.employee_service.department.application.port.out.persis
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.StoreDepartment;
 import com.sa.healntrack.employee_service.department.domain.Department;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class CreateDepartmentImpl implements CreateDepartment {
     private final StoreDepartment storeDepartment;
     private final FindDepartments findDepartments;
-
-    public CreateDepartmentImpl(StoreDepartment storeDepartment, FindDepartments findDepartments) {
-        this.storeDepartment = storeDepartment;
-        this.findDepartments = findDepartments;
-    }
 
     @Override
     public Department createDepartment(CreateDepartmentCommand command) {

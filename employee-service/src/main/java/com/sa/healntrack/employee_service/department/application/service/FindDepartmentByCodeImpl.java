@@ -8,14 +8,13 @@ import com.sa.healntrack.employee_service.department.application.port.in.find_de
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
 import com.sa.healntrack.employee_service.department.domain.Department;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class FindDepartmentByCodeImpl implements FindDepartmentByCode {
     private final FindDepartments findDepartments;
-    
-    public FindDepartmentByCodeImpl(FindDepartments findDepartments) {
-        this.findDepartments = findDepartments;
-    }
 
     @Override
     public Department findByCode(String code) {

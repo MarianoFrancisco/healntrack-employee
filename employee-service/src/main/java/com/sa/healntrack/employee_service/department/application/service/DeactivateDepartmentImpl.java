@@ -9,16 +9,14 @@ import com.sa.healntrack.employee_service.department.application.port.out.persis
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.StoreDepartment;
 import com.sa.healntrack.employee_service.department.domain.Department;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class DeactivateDepartmentImpl implements DeactivateDepartment {
     private final StoreDepartment storeDepartment;
     private final FindDepartments findDepartments;
-    
-    public DeactivateDepartmentImpl(FindDepartments findDepartments, StoreDepartment storeDepartment) {
-        this.storeDepartment = storeDepartment;
-        this.findDepartments = findDepartments;
-    }
 
     @Override
     public void deactivateDepartment(String code) {
