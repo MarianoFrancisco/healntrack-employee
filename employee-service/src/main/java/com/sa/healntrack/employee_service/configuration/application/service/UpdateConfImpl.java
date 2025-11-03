@@ -9,16 +9,14 @@ import com.sa.healntrack.employee_service.configuration.application.port.out.Fin
 import com.sa.healntrack.employee_service.configuration.application.port.out.StoreConf;
 import com.sa.healntrack.employee_service.configuration.domain.Configuration;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class UpdateConfImpl implements UpdateConf{
     private final FindConfs findConfs;
     private final StoreConf storeConf;
-
-    public UpdateConfImpl(FindConfs findConfs, StoreConf storeConf) {
-        this.findConfs = findConfs;
-        this.storeConf = storeConf;
-    }
 
     @Override
     public Configuration updateConf(String key, Integer value) {

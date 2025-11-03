@@ -9,13 +9,12 @@ import com.sa.healntrack.employee_service.configuration.application.port.out.Fin
 import com.sa.healntrack.employee_service.configuration.application.port.out.StoreConf;
 import com.sa.healntrack.employee_service.configuration.domain.Configuration;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 public class ConfRepository implements StoreConf, FindConfs {
     private final ConfJpaRepository vacationJpaRepository;
-
-    public ConfRepository(ConfJpaRepository vacationJpaRepository) {
-        this.vacationJpaRepository = vacationJpaRepository;
-    }
 
     @Override
     public Optional<Configuration> findByKey(String key) {

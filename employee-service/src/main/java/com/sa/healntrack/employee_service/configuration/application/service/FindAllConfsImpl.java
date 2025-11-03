@@ -9,14 +9,13 @@ import com.sa.healntrack.employee_service.configuration.application.port.in.Find
 import com.sa.healntrack.employee_service.configuration.application.port.out.FindConfs;
 import com.sa.healntrack.employee_service.configuration.domain.Configuration;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class FindAllConfsImpl implements FindAllConfs {
     private final FindConfs findConfs;
-
-    public FindAllConfsImpl(FindConfs findConfs) {
-        this.findConfs = findConfs;
-    }
 
     @Override
     public List<Configuration> findAll() {

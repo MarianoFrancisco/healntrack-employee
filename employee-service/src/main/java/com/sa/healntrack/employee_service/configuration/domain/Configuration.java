@@ -2,9 +2,11 @@ package com.sa.healntrack.employee_service.configuration.domain;
 
 import java.util.Objects;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(of = "key")
 public class Configuration {
     private final String key;
     private Integer value;
