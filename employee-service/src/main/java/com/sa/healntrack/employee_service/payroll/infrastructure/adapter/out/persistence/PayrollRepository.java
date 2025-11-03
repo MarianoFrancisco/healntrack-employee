@@ -11,14 +11,13 @@ import com.sa.healntrack.employee_service.payroll.application.port.out.FindPayro
 import com.sa.healntrack.employee_service.payroll.application.port.out.StorePayroll;
 import com.sa.healntrack.employee_service.payroll.domain.Payroll;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 public class PayrollRepository implements FindPayrolls, StorePayroll {
 
     private final PayrollJpaRepository jpaRepository;
-
-    public PayrollRepository(PayrollJpaRepository jpaRepository) {
-        this.jpaRepository = jpaRepository;
-    }
 
     @Override
     public Payroll save(Payroll payroll) {

@@ -16,22 +16,16 @@ import com.sa.healntrack.employee_service.payroll.application.port.out.FindPayro
 import com.sa.healntrack.employee_service.payroll.application.port.out.StorePayroll;
 import com.sa.healntrack.employee_service.payroll.domain.Payroll;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class PayPayrollImpl implements PayPayroll {
 
     private final FindEmployees findEmployees;
     private final FindPayrolls findPayrolls;
     private final StorePayroll storePayroll;
-
-    public PayPayrollImpl(
-            FindEmployees findEmployees,
-            StorePayroll storePayroll,
-            FindPayrolls findPayrolls) {
-        this.findEmployees = findEmployees;
-        this.storePayroll = storePayroll;
-        this.findPayrolls = findPayrolls;
-    }
 
     @Override
     public Payroll payPayroll(PayPayrollCommand command) {

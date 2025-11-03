@@ -10,14 +10,13 @@ import com.sa.healntrack.employee_service.payroll.application.port.in.command.Fi
 import com.sa.healntrack.employee_service.payroll.application.port.out.FindPayrolls;
 import com.sa.healntrack.employee_service.payroll.domain.Payroll;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class FindAllPayrollsImpl implements FindAllPayrolls {
     private final FindPayrolls findPayrolls;
-
-    public FindAllPayrollsImpl(FindPayrolls findPayrolls) {
-        this.findPayrolls = findPayrolls;
-    }
 
     @Override
     public List<Payroll> findAllPayrolls(FindAllPayrollsQuery query) {
