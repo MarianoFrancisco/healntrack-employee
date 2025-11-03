@@ -1,4 +1,4 @@
-package com.sa.healntrack.employee_service.vacation.infrastructure.adapter.out.persistence;
+package com.sa.healntrack.employee_service.configuration.infrastructure.adapter.out.persistence;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,13 +8,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "vacation_conf")
+@Table(name = "configuration")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "key")
-public class VacationConfEntity {
+public class ConfEntity {
     
     @Id
     private String key;

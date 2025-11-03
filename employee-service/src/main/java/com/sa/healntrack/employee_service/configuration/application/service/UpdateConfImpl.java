@@ -1,0 +1,32 @@
+package com.sa.healntrack.employee_service.configuration.application.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.sa.healntrack.employee_service.common.application.exception.ConfNotFoundException;
+import com.sa.healntrack.employee_service.configuration.application.port.in.UpdateConf;
+import com.sa.healntrack.employee_service.configuration.application.port.out.FindConfs;
+import com.sa.healntrack.employee_service.configuration.application.port.out.StoreConf;
+import com.sa.healntrack.employee_service.configuration.domain.Configuration;
+
+@Service
+@Transactional(rollbackFor = Exception.class)
+public class UpdateConfImpl implements UpdateConf{
+    private final FindConfs findConfs;
+    private final StoreConf storeConf;
+
+    public UpdateConfImpl(FindConfs findConfs, StoreConf storeConf) {
+        this.findConfs = findConfs;
+        this.storeConf = storeConf;
+    }
+
+    @Override
+    public Configuration updateConf(String key, Integer value) {
+        Configuration vacationConf = findConfs.findByKey(key)
+            .orElseThrow(() -> new ConfNotFoundException(key));
+        
+        vacationConf.setValue(value);
+        return storeConf.save(vacationConf);
+    }
+    
+}

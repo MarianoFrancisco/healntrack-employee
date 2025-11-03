@@ -1,15 +1,15 @@
-package com.sa.healntrack.employee_service.vacation.domain;
+package com.sa.healntrack.employee_service.configuration.domain;
 
 import java.util.Objects;
 
 import lombok.Getter;
 
 @Getter
-public class VacationConf {
+public class Configuration {
     private final String key;
     private Integer value;
 
-    public VacationConf(String key, Integer value) {
+    public Configuration(String key, Integer value) {
         this.key = Objects.requireNonNull(key, "La key no puede ser nula");
         this.value = validateValue(value);
     }
