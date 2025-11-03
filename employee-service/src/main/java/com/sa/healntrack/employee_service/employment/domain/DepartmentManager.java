@@ -7,9 +7,11 @@ import java.util.UUID;
 import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.employment.domain.value.DepartmentManagerId;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(of = "id")
 public class DepartmentManager {
     private final DepartmentManagerId id;
     private final Employee employee;

@@ -17,25 +17,17 @@ import com.sa.healntrack.employee_service.employment.domain.Employment;
 import com.sa.healntrack.employee_service.employment.domain.PeriodType;
 import com.sa.healntrack.employee_service.employment.domain.value.EmploymentId;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class SalaryIncreaseImpl implements SalaryIncrease {
 
     private final FindEmployees findEmployees;
     private final FindEmployments findEmployments;
     private final StoreEmployment storeEmployment;
     private final StoreEmployee storeEmployee;
-
-    public SalaryIncreaseImpl(
-            FindEmployees findEmployees,
-            FindEmployments findEmployments,
-            StoreEmployment storeEmployment,
-            StoreEmployee storeEmployee) {
-        this.findEmployees = findEmployees;
-        this.findEmployments = findEmployments;
-        this.storeEmployment = storeEmployment;
-        this.storeEmployee = storeEmployee;
-    }
 
     @Override
     public Employee applySalaryIncrease(String cui, SalaryIncreaseCommand command) {

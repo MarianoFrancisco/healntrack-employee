@@ -10,18 +10,16 @@ import com.sa.healntrack.employee_service.employment.application.port.in.find_em
 import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployments;
 import com.sa.healntrack.employee_service.employment.domain.Employment;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class FindAllEmploymentsImpl implements FindAllEmployments {
     private final FindEmployments findEmployments;
-
-    public FindAllEmploymentsImpl(FindEmployments findEmployments) {
-        this.findEmployments = findEmployments;
-    }
 
     @Override
     public List<Employment> findAllEmployments(FindAllEmploymentsQuery query) {
         return findEmployments.findAllEmployments(query);
     }
-
 }

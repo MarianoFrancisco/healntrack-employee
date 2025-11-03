@@ -8,14 +8,13 @@ import com.sa.healntrack.employee_service.employment.application.port.in.find_em
 import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment.domain.Employee;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class FindEmployeeByCuiImpl implements FindEmployeeByCui {
     private final FindEmployees findEmployees;
-
-    public FindEmployeeByCuiImpl(FindEmployees findEmployees){
-        this.findEmployees = findEmployees;
-    }
 
     @Override
     public Employee findByCui(String cui) {

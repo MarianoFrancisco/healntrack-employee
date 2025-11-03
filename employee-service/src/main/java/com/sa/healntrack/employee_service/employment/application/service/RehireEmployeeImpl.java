@@ -20,8 +20,11 @@ import com.sa.healntrack.employee_service.employment.domain.Employment;
 import com.sa.healntrack.employee_service.employment.domain.PeriodType;
 import com.sa.healntrack.employee_service.employment.domain.value.EmploymentId;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class RehireEmployeeImpl implements RehireEmployee {
 
     private final FindEmployees findEmployees;
@@ -29,19 +32,6 @@ public class RehireEmployeeImpl implements RehireEmployee {
     private final StoreEmployee storeEmployee;
     private final StoreEmployment storeEmployment;
     private final FindEmployments findEmployments;
-
-    public RehireEmployeeImpl(
-            FindEmployees findEmployees,
-            FindDepartments findDepartments,
-            StoreEmployee storeEmployee,
-            StoreEmployment storeEmployment,
-            FindEmployments findEmployments) {
-        this.findEmployees = findEmployees;
-        this.findDepartments = findDepartments;
-        this.storeEmployee = storeEmployee;
-        this.storeEmployment = storeEmployment;
-        this.findEmployments = findEmployments;
-    }
 
     @Override
     public Employee rehireEmployee(String cui, RehireEmployeeCommand command) {

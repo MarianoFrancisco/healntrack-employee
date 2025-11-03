@@ -10,14 +10,13 @@ import com.sa.healntrack.employee_service.employment.application.port.in.find_de
 import com.sa.healntrack.employee_service.employment.application.port.out.FindDepartmentManagers;
 import com.sa.healntrack.employee_service.employment.domain.DepartmentManager;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class FindAllDepartmentManagersImpl implements FindAllDepartmentManagers{
     private final FindDepartmentManagers findAllDepartmentManagers;
-
-    public FindAllDepartmentManagersImpl(FindDepartmentManagers findAllDepartmentManagers) {
-        this.findAllDepartmentManagers = findAllDepartmentManagers;
-    }
 
     @Override
     public List<DepartmentManager> findAllDepartmentManagers(FindAllDepartmentManagersQuery query) {

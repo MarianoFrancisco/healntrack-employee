@@ -19,8 +19,11 @@ import com.sa.healntrack.employee_service.employment.domain.Employment;
 import com.sa.healntrack.employee_service.employment.domain.PeriodType;
 import com.sa.healntrack.employee_service.employment.domain.value.EmploymentId;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class TerminateEmploymentImpl implements TerminateEmployment {
 
     private final FindEmployees findEmployees;
@@ -29,21 +32,6 @@ public class TerminateEmploymentImpl implements TerminateEmployment {
     private final StoreEmployee storeEmployee;
     private final StoreEmployment storeEmployment;
     private final StoreDepartmentManager storeDepartmentManager;
-
-    public TerminateEmploymentImpl(
-            FindEmployees findEmployees,
-            FindEmployments findEmployments,
-            FindDepartmentManagers findDepartmentManagers,
-            StoreEmployee storeEmployee,
-            StoreEmployment storeEmployment,
-            StoreDepartmentManager storeDepartmentManager) {
-        this.findEmployees = findEmployees;
-        this.findEmployments = findEmployments;
-        this.findDepartmentManagers = findDepartmentManagers;
-        this.storeEmployee = storeEmployee;
-        this.storeEmployment = storeEmployment;
-        this.storeDepartmentManager = storeDepartmentManager;
-    }
 
     @Override
     public Employee terminateEmployment(String cui, TerminateEmploymentCommand command) {

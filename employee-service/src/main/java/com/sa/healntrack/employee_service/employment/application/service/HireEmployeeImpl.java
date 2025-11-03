@@ -21,26 +21,17 @@ import com.sa.healntrack.employee_service.employment.domain.Employment;
 import com.sa.healntrack.employee_service.employment.domain.PeriodType;
 import com.sa.healntrack.employee_service.employment.domain.value.EmploymentId;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class HireEmployeeImpl implements HireEmployee {
 
     private final FindEmployees findEmployees;
     private final FindDepartments findDepartments;
     private final StoreEmployee storeEmployee;
     private final StoreEmployment storeEmployment;
-
-    public HireEmployeeImpl(
-        FindEmployees findEmployees,
-        FindDepartments findDepartments,
-        StoreEmployee storeEmployee,
-        StoreEmployment storeEmployment
-    ) {
-        this.findEmployees = findEmployees;
-        this.findDepartments = findDepartments;
-        this.storeEmployee = storeEmployee;
-        this.storeEmployment = storeEmployment;
-    }
 
     @Override
     public Employee hireEmployee(HireEmployeeCommand command) {

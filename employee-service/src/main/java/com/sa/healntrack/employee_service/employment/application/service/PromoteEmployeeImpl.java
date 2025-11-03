@@ -26,8 +26,11 @@ import com.sa.healntrack.employee_service.employment.domain.Employee;
 import com.sa.healntrack.employee_service.employment.domain.Employment;
 import com.sa.healntrack.employee_service.employment.domain.PeriodType;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class PromoteEmployeeImpl implements PromoteEmployee {
 
     private final FindEmployees findEmployees;
@@ -37,23 +40,6 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
     private final StoreEmployment storeEmployment;
     private final StoreDepartmentManager storeDepartmentManager;
     private final StoreEmployee storeEmployee;
-
-    public PromoteEmployeeImpl(
-            FindEmployees findEmployees,
-            FindEmployments findEmployments,
-            FindDepartmentManagers findDepartmentManagers,
-            FindDepartments findDepartments,
-            StoreEmployment storeEmployment,
-            StoreDepartmentManager storeDepartmentManager,
-            StoreEmployee storeEmployee) {
-        this.findEmployees = findEmployees;
-        this.findEmployments = findEmployments;
-        this.findDepartmentManagers = findDepartmentManagers;
-        this.findDepartments = findDepartments;
-        this.storeEmployment = storeEmployment;
-        this.storeDepartmentManager = storeDepartmentManager;
-        this.storeEmployee = storeEmployee;
-    }
 
     @Override
     public Employee promoteEmployee(String cui, PromoteEmployeeCommand command) {

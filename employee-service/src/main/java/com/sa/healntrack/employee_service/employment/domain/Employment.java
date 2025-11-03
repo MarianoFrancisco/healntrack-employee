@@ -8,9 +8,11 @@ import java.util.UUID;
 import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.employment.domain.value.EmploymentId;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(of = "id")
 public class Employment {
     private final EmploymentId id;
     private final Employee employee;

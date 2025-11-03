@@ -14,14 +14,13 @@ import com.sa.healntrack.employee_service.employment.infrastructure.adapter.out.
 import com.sa.healntrack.employee_service.employment.infrastructure.adapter.out.persistence.mapper.EmployeeEntityMapper;
 import com.sa.healntrack.employee_service.employment.infrastructure.adapter.out.persistence.spec.EmployeeSpecs;
 
+import lombok.RequiredArgsConstructor;
+
 @Repository
+@RequiredArgsConstructor
 public class EmployeeRepository implements FindEmployees, StoreEmployee {
 
     private final EmployeeJpaRepository jpaRepository;
-
-    public EmployeeRepository(EmployeeJpaRepository jpaRepository) {
-        this.jpaRepository = jpaRepository;
-    }
 
     @Override
     public Employee save(Employee employee) {

@@ -11,16 +11,14 @@ import com.sa.healntrack.employee_service.employment.application.port.out.FindEm
 import com.sa.healntrack.employee_service.employment.application.port.out.StoreEmployee;
 import com.sa.healntrack.employee_service.employment.domain.Employee;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional(rollbackFor = Exception.class)
+@RequiredArgsConstructor
 public class UpdateEmployeeImpl implements UpdateEmployee{
     private final StoreEmployee storeEmployee;
     private final FindEmployees findEmployees;
-
-    public UpdateEmployeeImpl(StoreEmployee storeEmployee, FindEmployees findEmployees){
-        this.storeEmployee = storeEmployee;
-        this.findEmployees = findEmployees;
-    }
 
     @Override
     public Employee updateEmployee(String cui, UpdateEmployeeCommand command) {
