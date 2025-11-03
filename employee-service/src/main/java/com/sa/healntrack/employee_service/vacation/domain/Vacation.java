@@ -75,6 +75,10 @@ public class Vacation {
         Objects.requireNonNull(approver, "El aprobador no puede ser nulo");
         Objects.requireNonNull(date, "La fecha de aprobación no puede ser nula");
         
+        if (!this.employee.isActive()) {
+            throw new IllegalArgumentException("No se puede cambiar el estado porque no existe contrato para el empleado con cui: " + this.employee.getCui().value());
+        }
+
         if(date.isBefore(this.requestedAt)) {
             throw new IllegalArgumentException("La fecha de aprobación no puede ser anterior a la fecha de solicitud");
         }

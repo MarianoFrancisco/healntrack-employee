@@ -1,8 +1,10 @@
 package com.sa.healntrack.employee_service.department.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode(of = "code")
 public class Department {
 
     private final DepartmentCode code;

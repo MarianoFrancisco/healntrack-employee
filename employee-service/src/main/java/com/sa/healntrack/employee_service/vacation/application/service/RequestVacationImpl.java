@@ -42,6 +42,10 @@ public class RequestVacationImpl implements RequestVacation {
                 .orElseThrow(
                         () -> new EmployeeNotFoundException(command.employeeCui()));
 
+        if (!employee.isActive()) {
+            throw new EmployeeNotFoundException(command.employeeCui());
+        }
+
         int maxVacationDays = getConfValue(VACATION_DAYS_KEY);
         int minAdvanceDays = getConfValue(VACATION_CHANGE_ADVANCE_DAYS_KEY);
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.sa.healntrack.employee_service.common.application.exception.BusinessException;
 import com.sa.healntrack.employee_service.common.application.exception.DuplicateEntityException;
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
 import com.sa.healntrack.employee_service.common.application.exception.InvalidDateRangeException;
@@ -48,6 +49,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ProblemDetail handleInvalidDateRange(InvalidDateRangeException e) {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
         pd.setTitle("Invalid Date Range");
+        pd.setProperty("error_category", "Business Rule");
+        pd.setProperty("timestamp", Instant.now());
+        return pd;
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    ProblemDetail handleBusinessException(BusinessException e) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        pd.setTitle("Business Exception");
         pd.setProperty("error_category", "Business Rule");
         pd.setProperty("timestamp", Instant.now());
         return pd;
