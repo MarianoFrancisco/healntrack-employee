@@ -1,10 +1,12 @@
 package com.sa.healntrack.employee_service.employment.application.service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sa.healntrack.employee_service.common.application.port.out.NotificationPublisher;
 import com.sa.healntrack.employee_service.department.application.exception.DepartmentNotFoundException;
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
 import com.sa.healntrack.employee_service.department.domain.Department;
@@ -32,6 +34,7 @@ public class RehireEmployeeImpl implements RehireEmployee {
     private final StoreEmployee storeEmployee;
     private final StoreEmployment storeEmployment;
     private final FindEmployments findEmployments;
+    private final NotificationPublisher notificationPublisher;
 
     @Override
     public Employee rehireEmployee(String cui, RehireEmployeeCommand command) {
@@ -65,6 +68,21 @@ public class RehireEmployeeImpl implements RehireEmployee {
                 command.notes() != null ? command.notes() : "Recontratación del empleado");
 
         storeEmployment.save(newEmployment);
+        sendNotificationEmail(existingEmployee);
 
         return existingEmployee;
-    }}
+    }
+
+    private void sendNotificationEmail(Employee employee) {
+        String subject = "Recontratación de empleado";
+        String bodyHtml = String.format("<h1>Bienvenido de nuevo, %s!</h1><p>Estamos felices de tenerte de vuelta en el equipo.</p>", employee.getFullname());
+
+        notificationPublisher.publish(
+            UUID.randomUUID().toString(),
+            employee.getEmail().value(),
+            employee.getFullname(),
+            subject,
+            bodyHtml
+        );
+    }
+}

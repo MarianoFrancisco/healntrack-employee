@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
 import com.sa.healntrack.employee_service.common.application.exception.InvalidDateRangeException;
+import com.sa.healntrack.employee_service.common.application.port.out.NotificationPublisher;
 import com.sa.healntrack.employee_service.department.application.exception.DepartmentNotFoundException;
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
 import com.sa.healntrack.employee_service.department.domain.Department;
@@ -40,6 +41,7 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
     private final StoreEmployment storeEmployment;
     private final StoreDepartmentManager storeDepartmentManager;
     private final StoreEmployee storeEmployee;
+    private final NotificationPublisher notificationPublisher;
 
     @Override
     public Employee promoteEmployee(String cui, PromoteEmployeeCommand command) {
@@ -86,7 +88,22 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
                 department,
                 command.date());
         storeDepartmentManager.save(newManager);
+        sendNotificationEmail(employee);
 
         return employee;
+    }
+
+    private void sendNotificationEmail(Employee employee) {
+        String subject = "Ascenso de empleado";
+        String bodyHtml = String.format(
+                        "<h1>Felicidades, %s!</h1><p>Nos complace informarte que has sido ascendido a jefe del area %s. Asi que tu salario actual es de Q.%s. Gracias por tu dedicación y esfuerzo.</p>",
+                        employee.getFullname(), employee.getDepartment().getName(), employee.getSalary());
+
+        notificationPublisher.publish(
+                        UUID.randomUUID().toString(),
+                        employee.getEmail().value(),
+                        employee.getFullname(),
+                        subject,
+                        bodyHtml);
     }
 }

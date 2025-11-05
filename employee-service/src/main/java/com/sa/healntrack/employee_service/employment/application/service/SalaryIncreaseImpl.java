@@ -1,10 +1,13 @@
 package com.sa.healntrack.employee_service.employment.application.service;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
 import com.sa.healntrack.employee_service.common.application.exception.InvalidDateRangeException;
+import com.sa.healntrack.employee_service.common.application.port.out.NotificationPublisher;
 import com.sa.healntrack.employee_service.employment.application.exception.EmployeeNotFoundException;
 import com.sa.healntrack.employee_service.employment.application.port.in.salary_increase.SalaryIncrease;
 import com.sa.healntrack.employee_service.employment.application.port.in.salary_increase.SalaryIncreaseCommand;
@@ -28,6 +31,7 @@ public class SalaryIncreaseImpl implements SalaryIncrease {
     private final FindEmployments findEmployments;
     private final StoreEmployment storeEmployment;
     private final StoreEmployee storeEmployee;
+    private final NotificationPublisher notificationPublisher;
 
     @Override
     public Employee applySalaryIncrease(String cui, SalaryIncreaseCommand command) {
@@ -61,8 +65,22 @@ public class SalaryIncreaseImpl implements SalaryIncrease {
                 command.notes() != null ? command.notes() : "Aumento de salario"
         );
         storeEmployment.save(newPeriod);
+        sendNotificationEmail(employee);
 
         return employee;
+    }
+
+    private void sendNotificationEmail(Employee employee) {
+        String subject = "Aumento de salario";
+        String bodyHtml = String.format(
+                        "<h1>Felicidades, %s!</h1><p>Nos complace informarte que has recibido un aumento de salario. Asi que ahora tu salario actual es de Q.%s. Gracias por tu dedicación y esfuerzo.</p>",
+                        employee.getFullname(), employee.getSalary());
+        notificationPublisher.publish(
+                        UUID.randomUUID().toString(),
+                        employee.getEmail().value(),
+                        employee.getFullname(),
+                        subject,
+                        bodyHtml);
     }
 }
 
