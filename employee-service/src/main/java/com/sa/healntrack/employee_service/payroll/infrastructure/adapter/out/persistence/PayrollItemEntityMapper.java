@@ -2,6 +2,7 @@ package com.sa.healntrack.employee_service.payroll.infrastructure.adapter.out.pe
 
 import com.sa.healntrack.employee_service.employment.infrastructure.adapter.out.persistence.mapper.EmployeeEntityMapper;
 import com.sa.healntrack.employee_service.department.infrastructure.adapter.out.persistence.DepartmentEntityMapper;
+import com.sa.healntrack.employee_service.payroll.domain.Payroll;
 import com.sa.healntrack.employee_service.payroll.domain.PayrollItem;
 
 public class PayrollItemEntityMapper {
@@ -11,9 +12,10 @@ public class PayrollItemEntityMapper {
     }
 
     public static PayrollItem toDomain(PayrollItemEntity entity) {
+        Payroll payroll = PayrollEntityMapper.toDomain(entity.getPayroll());
         return new PayrollItem(
                 entity.getId(),
-                null,
+                payroll,
                 EmployeeEntityMapper.toDomain(entity.getEmployee()),
                 DepartmentEntityMapper.toDomain(entity.getDepartment()),
                 entity.getGrossSalary(),

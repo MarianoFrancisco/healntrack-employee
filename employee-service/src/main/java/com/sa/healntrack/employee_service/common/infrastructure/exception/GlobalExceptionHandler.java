@@ -128,7 +128,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     ProblemDetail handleNullPointer(NullPointerException e) {
         ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR,
-                "Un valor requerido no se ha enviado");
+                "Un valor requerido no se ha enviado" + e.getMessage());
         pd.setTitle("Null Pointer");
         pd.setProperty("error_category", "Domain");
         pd.setProperty("timestamp", Instant.now());

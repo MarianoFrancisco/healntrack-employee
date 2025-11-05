@@ -1,10 +1,8 @@
 package com.sa.healntrack.employee_service.payroll.infrastructure.adapter.out.persistence;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.sa.healntrack.employee_service.payroll.domain.Payroll;
-import com.sa.healntrack.employee_service.payroll.domain.PayrollItem;
 
 public class PayrollEntityMapper {
 
@@ -15,15 +13,9 @@ public class PayrollEntityMapper {
     public static Payroll toDomain(PayrollEntity entity) {
         if (entity == null) return null;
 
-        Set<PayrollItem> items = entity.getItems() != null
-                ? entity.getItems().stream()
-                        .map(PayrollItemEntityMapper::toDomain)
-                        .collect(Collectors.toSet())
-                : Set.of();
-
         return new Payroll(
                 entity.getId(),
-                items,
+                null,
                 entity.getStartDate(),
                 entity.getEndDate(),
                 entity.getPayDay(),

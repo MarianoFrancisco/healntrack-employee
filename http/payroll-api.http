@@ -1,4 +1,4 @@
-@rootUrl = http://localhost:8005/api/v1/payrolls
+@rootUrl = http://localhost:8005/api/v1/employees/payrolls
 ### 1. Generar nómina para un periodo
 POST {{rootUrl}}
 Content-Type: application/json
@@ -22,6 +22,6 @@ Content-Type: application/json
 }
 
 ### 3. Obtener todas las nóminas del empleado 1
-GET http://localhost:8005/api/v1/payrolls?employee=1000000000002
+GET {{rootUrl}}
 
 
