@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaNotificationPublisher implements NotificationPublisher {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, byte[]> kafkaTemplate;
     private final NotificationTopicProperties notificationTopics;
     private final ObjectMapper objectMapper;
 
@@ -25,9 +25,9 @@ public class KafkaNotificationPublisher implements NotificationPublisher {
                     requestId, to, toName, subject, bodyHtml
             );
 
-            String json = objectMapper.writeValueAsString(event);
-            ProducerRecord<String, String> record =
-                    new ProducerRecord<>(notificationTopics.getRequested(), requestId, json);
+            byte[] eventBytes = objectMapper.writeValueAsBytes(event);
+            ProducerRecord<String, byte[]> record =
+                    new ProducerRecord<>(notificationTopics.getRequested(), requestId, eventBytes);
             kafkaTemplate.send(record);
         } catch (Exception ex) {
             throw new IllegalArgumentException("KAFKA", ex);
