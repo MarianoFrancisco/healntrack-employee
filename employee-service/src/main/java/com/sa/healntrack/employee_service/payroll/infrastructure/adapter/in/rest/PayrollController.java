@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/payrolls")
+@RequestMapping("/api/v1/employees/payrolls")
 @RequiredArgsConstructor
 public class PayrollController {
 

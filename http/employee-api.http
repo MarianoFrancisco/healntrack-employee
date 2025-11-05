@@ -1,4 +1,4 @@
-@rootUrl = http://35.207.55.157:8000/api/v1/employees
+@rootUrl = http://localhost:8005/api/v1/employees
 
 ### 1. Contratar un nuevo empleado
 POST {{rootUrl}}
@@ -46,6 +46,9 @@ GET {{rootUrl}}?q=Juan&department=MED-025&isActive=true
 
 ### 5. Obtener empleado por CUI
 GET {{rootUrl}}/1234567890123
+
+### 5. Obtener empleado por ID
+GET {{rootUrl}}/id/6334794e-ac7e-41cd-b244-b2b2515e9ae1
 
 ### 6. Promover empleado a gerente de departamento
 POST {{rootUrl}}/1234567890123/promote
