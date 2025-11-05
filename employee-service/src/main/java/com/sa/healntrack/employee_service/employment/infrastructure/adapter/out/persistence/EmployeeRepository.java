@@ -2,6 +2,7 @@ package com.sa.healntrack.employee_service.employment.infrastructure.adapter.out
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -76,6 +77,12 @@ public class EmployeeRepository implements FindEmployees, StoreEmployee {
     @Override
     public Optional<Employee> findEmployeeByEmail(String email) {
         return jpaRepository.findByEmail(email)
+                .map(EmployeeEntityMapper::toDomain);
+    }
+
+    @Override
+    public Optional<Employee> findEmployeeById(UUID id) {
+        return jpaRepository.findById(id)
                 .map(EmployeeEntityMapper::toDomain);
     }
     

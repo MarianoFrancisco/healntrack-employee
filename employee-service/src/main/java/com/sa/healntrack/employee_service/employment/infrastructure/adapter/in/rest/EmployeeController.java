@@ -1,6 +1,7 @@
 package com.sa.healntrack.employee_service.employment.infrastructure.adapter.in.rest;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,7 @@ public class EmployeeController {
     private final HireEmployee hireEmployee;
     private final FindAllEmployees findAllEmployees;
     private final FindEmployeeByCui findEmployeeByCui;
+    private final FindEmployeeById findEmployeeById;
     private final RehireEmployee rehireEmployee;
     private final PromoteEmployee promoteEmployee;
     private final SalaryIncrease salaryIncrease;
@@ -86,6 +88,12 @@ public class EmployeeController {
     @GetMapping("/{cui}")
     public ResponseEntity<EmployeeResponseDTO> getEmployeeByCui(@PathVariable String cui) {
         Employee employee = findEmployeeByCui.findByCui(cui);
+        return ResponseEntity.ok(EmployeeRestMapper.toResponseDTO(employee));
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<EmployeeResponseDTO> getEmployeeById(@PathVariable UUID id) {
+        Employee employee = findEmployeeById.findById(id);
         return ResponseEntity.ok(EmployeeRestMapper.toResponseDTO(employee));
     }
 
