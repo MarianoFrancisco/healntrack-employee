@@ -35,7 +35,7 @@ CREATE TABLE employment (
     id UUID PRIMARY KEY,
     employee_id UUID NOT NULL,
     department_code CHAR(7) NOT NULL,
-    type VARCHAR(20) NOT NULL CHECK (type IN ('CONTRATACION', 'RECONTRATACION', 'ASENSO', 'AUMENTO', 'DESPIDO', 'RENUNCIA')),
+    type VARCHAR(20) NOT NULL CHECK (type IN ('CONTRATACION', 'RECONTRATACION', 'ASCENSO', 'AUMENTO', 'DESPIDO', 'RENUNCIA')),
     start_date DATE NOT NULL,
     end_date DATE,
     salary DECIMAL(10,2) NOT NULL,

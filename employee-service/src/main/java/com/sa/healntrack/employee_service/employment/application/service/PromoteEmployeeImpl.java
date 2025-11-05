@@ -76,7 +76,7 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
         Employment promotionPeriod = new Employment(
                 UUID.randomUUID(),
                 employee,
-                PeriodType.ASENSO,
+                PeriodType.ASCENSO,
                 command.date(),
                 employee.getSalary(),
                 command.notes() != null ? command.notes() : "Ascenso del empleado");
