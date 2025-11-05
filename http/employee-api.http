@@ -8,7 +8,7 @@ Content-Type: application/json
   "cui": "1234567890123",
   "nit": "123456789",
   "fullname": "Juan Pérez López",
-  "email": "juan.perez@hospital.com",
+  "email": "tonoju123456@gmail.com",
   "phoneNumber": "12345678",
   "birthDate": "1985-05-15",
   "departmentCode": "MED-025",
@@ -221,7 +221,7 @@ Content-Type: application/json
 }
 
 ### Actualizar información de empleado
-PUT {{rootUrl}}/1234567890001
+PATCH {{rootUrl}}/1234567890001
 Content-Type: application/json
 
 {
@@ -243,7 +243,7 @@ Content-Type: application/json
 }
 
 ### 3. Despedir a Carlos
-DELETE {{rootUrl}}/1234567890001
+POST {{rootUrl}}/1234567890001/terminate
 Content-Type: application/json
 
 {
