@@ -1,10 +1,12 @@
 package com.sa.healntrack.employee_service.employment.application.service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sa.healntrack.employee_service.common.application.port.out.NotificationPublisher;
 import com.sa.healntrack.employee_service.department.application.exception.DepartmentNotFoundException;
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
 import com.sa.healntrack.employee_service.department.domain.Department;
@@ -32,6 +34,7 @@ public class HireEmployeeImpl implements HireEmployee {
     private final FindDepartments findDepartments;
     private final StoreEmployee storeEmployee;
     private final StoreEmployment storeEmployment;
+    private final NotificationPublisher notificationPublisher;
 
     @Override
     public Employee hireEmployee(HireEmployeeCommand command) {
@@ -59,6 +62,25 @@ public class HireEmployeeImpl implements HireEmployee {
         );
 
         storeEmployment.save(employmentPeriod);
+        
+        sendNotificationEmail(employee);
+        
         return employee;
+    }
+
+    private void sendNotificationEmail(Employee employee) {
+        String subject = "Bienvenido a la Empresa!";
+        String bodyHtml = String.format(
+            "<h1>Bienvenido %s!</h1><p>Estamos emocionados de tenerte a bordo.</p>",
+            employee.getFullname()
+        );
+
+        notificationPublisher.publish(
+            UUID.randomUUID().toString(),
+            employee.getEmail().value(),
+            employee.getFullname(),
+            subject,
+            bodyHtml
+        );
     }
 }

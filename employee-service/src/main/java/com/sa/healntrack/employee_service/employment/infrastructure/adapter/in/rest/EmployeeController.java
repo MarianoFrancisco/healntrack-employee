@@ -68,7 +68,7 @@ public class EmployeeController {
                 .body(EmployeeRestMapper.toResponseDTO(employee));
     }
 
-    @PutMapping("/{cui}")
+    @PatchMapping("/{cui}")
     public ResponseEntity<EmployeeResponseDTO> updateEmployee(
                     @PathVariable String cui,
                     @RequestBody @Valid UpdateEmployeeRequestDTO requestDTO) {
@@ -154,7 +154,7 @@ public class EmployeeController {
         return ResponseEntity.ok(EmployeeRestMapper.toResponseDTO(employee));
     }
 
-    @DeleteMapping("/{cui}")
+    @PostMapping("/{cui}/terminate")
     public ResponseEntity<EmployeeResponseDTO> terminateEmployment(
             @PathVariable String cui,
             @RequestBody @Valid TerminateEmploymentRequestDTO requestDTO) {

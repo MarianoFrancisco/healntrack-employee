@@ -14,6 +14,18 @@ spring:
     # hibernate:
     #   ddl-auto: update
 
+  kafka:
+    bootstrap-servers: 35.207.55.157:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      retries: 5
+
+topics:
+  notification:
+    requested: ${TOPIC_NOTIFICATION_REQUESTED:notification.requested}
+
 server:
   port: ${PORT:8005}
   shutdown: graceful

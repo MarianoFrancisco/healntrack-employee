@@ -43,7 +43,7 @@ public class DepartmentController {
                 .body(DepartmentRestMapper.toResponseDTO(created));
     }
 
-    @PutMapping("/{code}")
+    @PatchMapping("/{code}")
     public ResponseEntity<DepartmentResponseDTO> updateDepartment(
             @PathVariable String code,
             @RequestBody @Valid UpdateDepartmentRequestDTO requestDTO) {
