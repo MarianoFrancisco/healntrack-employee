@@ -56,7 +56,7 @@ public class PromoteEmployeeImpl implements PromoteEmployee {
         }
 
         if (findDepartmentManagers.existsByDepartmentAndIsActive(department, true)) {
-            throw new DuplicateManagerException(department.getCode().toString());
+            throw new DuplicateManagerException(department.getCode().value());
         }
 
         Employment lastPeriod = findEmployments.findByEmployeeAndEndDate(employee, null)

@@ -10,6 +10,7 @@ public record SalaryIncreaseRequestDTO(
     @DecimalMin(value = "0.0", inclusive = true, message = "El aumento de salario no puede ser negativo")
     BigDecimal salaryIncrease,
     
+    @NotNull(message = "La fecha del aumento es obligatoria")
     LocalDate date,
     String notes
 ) {}

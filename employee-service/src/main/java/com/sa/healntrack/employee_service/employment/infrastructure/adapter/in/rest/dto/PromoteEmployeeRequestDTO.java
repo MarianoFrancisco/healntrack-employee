@@ -14,6 +14,7 @@ public record PromoteEmployeeRequestDTO(
     @Pattern(regexp = "^[A-Z]{3}-\\d{3}$", message = "El código debe tener el formato XXX-000")
     String departmentCode,
 
+    @NotNull(message = "La fecha del aumento es obligatoria")
     LocalDate date,
     String notes
 ) {
