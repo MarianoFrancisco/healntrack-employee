@@ -1,4 +1,5 @@
 @rootUrl = http://localhost:8005/api/v1/employees
+# @rootUrl = http://35.207.55.157:8000/api/v1/employees
 
 ### 1. Contratar un nuevo empleado
 POST {{rootUrl}}

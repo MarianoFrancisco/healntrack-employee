@@ -19,9 +19,11 @@ public record RehireEmployeeRequestDTO(
     BigDecimal newSalary,
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El porcentaje de IGSS no puede ser negativo")
+    @DecimalMax(value = "0.15", message = "El porcentaje de IGSS no puede ser mayor al 15%")
     BigDecimal igssPercent,
 
     @DecimalMin(value = "0.0", inclusive = true, message = "El porcentaje de IRTRA no puede ser negativo")
+    @DecimalMax(value = "0.15", message = "El porcentaje de IRTRA no puede ser mayor al 15%")
     BigDecimal irtraPercent,
     
     LocalDate startDate,
