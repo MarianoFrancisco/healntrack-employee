@@ -1,4 +1,4 @@
-@rootUrl = http://localhost:8000/api/v1/employees/vacations
+@rootUrl = http://localhost:8005/api/v1/employees/vacations
 
 ### Solicitar vacaciones para empleado 1
 POST {{rootUrl}}
@@ -53,4 +53,7 @@ GET {{rootUrl}}?department=MED-025
 GET {{rootUrl}}?status=APROBADA
 
 ### Filtrar vacaciones por rango de fechas
-GET {{rootUrl}}?startDate=2025-11-01&endDate=2025-12-31
+GET {{rootUrl}}?startDate=2006-11-01&endDate=2006-11-02
+
+### Obtener una vacación por ID
+GET {{rootUrl}}/fec14999-7627-4b0a-8268-397a08586b3e

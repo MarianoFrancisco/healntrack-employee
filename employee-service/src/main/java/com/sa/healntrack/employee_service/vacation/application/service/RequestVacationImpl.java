@@ -1,11 +1,13 @@
 package com.sa.healntrack.employee_service.vacation.application.service;
 
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sa.healntrack.employee_service.common.application.exception.EntityNotFoundException;
+import com.sa.healntrack.employee_service.common.application.port.out.NotificationPublisher;
 import com.sa.healntrack.employee_service.configuration.application.port.out.FindConfs;
 import com.sa.healntrack.employee_service.configuration.domain.Configuration;
 import com.sa.healntrack.employee_service.employment.application.exception.EmployeeNotFoundException;
@@ -36,6 +38,7 @@ public class RequestVacationImpl implements RequestVacation {
     private final FindEmployees findEmployees;
     private final FindConfs findConfs;
     private final StoreVacation storeVacation;
+    private final NotificationPublisher notificationPublisher;
 
     @Override
     public Vacation requestVacation(RequestVacationCommand command) {
@@ -71,13 +74,54 @@ public class RequestVacationImpl implements RequestVacation {
 
         Vacation vacation = VacationMapper.toDomain(command, employee);
 
-        return storeVacation.save(vacation);
+        Vacation savedVacation = storeVacation.save(vacation);
+
+        sendNotificationEmail(savedVacation, employee, false);
+        sendNotificationEmail(savedVacation, savedVacation.getApprovedBy().getEmployee(), true);
+
+        return savedVacation;
     }
 
     private int getConfValue(String key) {
         return findConfs.findByKey(key)
                 .map(Configuration::getValue)
                 .orElseThrow(() -> new EntityNotFoundException("Configuración no encontrada para la clave: " + key));
+    }
+
+    private void sendNotificationEmail(Vacation vacation, Employee employee, boolean isManager) {
+        String subject = "Solicitud de Vacaciones";
+        String bodyHtml;
+
+        if (isManager) {
+            bodyHtml = String.format(
+                    "<h1>Nueva Solicitud de Vacaciones</h1>" +
+                            "<p>El empleado <strong>%s</strong> ha solicitado vacaciones.</p>" +
+                            "<p><strong>Periodo:</strong> %s a %s</p>" +
+                            "<p><strong>Fecha de solicitud:</strong> %s</p>" +
+                            "<p>Por favor, revise la solicitud en el sistema.</p>",
+                    employee.getFullname(),
+                    vacation.getPeriod().startDate(),
+                    vacation.getPeriod().endDate(),
+                    vacation.getRequestedAt());
+        } else {
+            bodyHtml = String.format(
+                    "<h1>¡Hola %s!</h1>" +
+                            "<p>Tu solicitud de vacaciones ha sido registrada exitosamente.</p>" +
+                            "<p><strong>Periodo:</strong> %s a %s</p>" +
+                            "<p><strong>Fecha de solicitud:</strong> %s</p>" +
+                            "<p>Recibirás una notificación cuando sea revisada.</p>",
+                    employee.getFullname().split(" ")[0],
+                    vacation.getPeriod().startDate(),
+                    vacation.getPeriod().endDate(),
+                    vacation.getRequestedAt());
+        }
+
+        notificationPublisher.publish(
+                UUID.randomUUID().toString(),
+                employee.getEmail().value(),
+                employee.getFullname(),
+                subject,
+                bodyHtml);
     }
 
 }
