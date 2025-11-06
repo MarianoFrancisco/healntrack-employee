@@ -71,9 +71,9 @@ public class DepartmentManagerRepository implements FindDepartmentManagers, Stor
     }
 
     @Override
-    public Optional<DepartmentManager> findByEmailAndIsActive(String email, boolean isActive) {
+    public Optional<DepartmentManager> findByCuiAndIsActive(String cui, boolean isActive) {
         Specification<DepartmentManagerEntity> spec = Specification.allOf(
-                DepartmentManagerSpecs.employeeEmailEquals(email),
+                DepartmentManagerSpecs.employeeCuiEquals(cui),
                 DepartmentManagerSpecs.activeEquals(isActive)
         );
         return jpaRepository.findOne(spec)

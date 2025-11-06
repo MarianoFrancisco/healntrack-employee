@@ -74,5 +74,17 @@ public class VacationSpecs {
                 ? null
                 : cb.equal(root.get("status"), status);
     }
+
+    public static Specification<VacationEntity> periodOverlaps(LocalDate startDate, LocalDate endDate) {
+            return (root, query, cb) -> {
+                    if (startDate == null || endDate == null) {
+                            return null;
+                    }
+                    // Overlap: (vacation.startDate <= endDate) AND (vacation.endDate >= startDate)
+                    return cb.and(
+                                    cb.lessThanOrEqualTo(root.get("startDate"), endDate),
+                                    cb.greaterThanOrEqualTo(root.get("endDate"), startDate));
+            };
+    }
 }
 

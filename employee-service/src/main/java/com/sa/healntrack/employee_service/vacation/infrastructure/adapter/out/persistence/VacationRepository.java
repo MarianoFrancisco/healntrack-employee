@@ -1,5 +1,7 @@
 package com.sa.healntrack.employee_service.vacation.infrastructure.adapter.out.persistence;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,8 +44,7 @@ public class VacationRepository implements FindVacations, StoreVacation {
                 VacationSpecs.departmentCodeEquals(query.department()),
                 VacationSpecs.departmentNameContains(query.department())
             ),
-                VacationSpecs.startDateGreaterThanOrEqualTo(query.startDate()),
-                VacationSpecs.endDateLessThanOrEqualTo(query.endDate()),
+                VacationSpecs.periodOverlaps(query.startDate(), query.endDate()),
                 VacationSpecs.requestedAtGreaterThanOrEqualTo(query.requestedAtFrom()),
                 VacationSpecs.requestedAtLessThanOrEqualTo(query.requestedAtTo()),
                 VacationSpecs.statusEquals(query.status())
@@ -67,6 +68,23 @@ public class VacationRepository implements FindVacations, StoreVacation {
                 EmployeeEntityMapper.toEntity(employee),
                 status
         );
+    }
+
+    @Override
+    public boolean existsApprovedOrSignedVacationInYear(String employeeCui, int year) {
+        LocalDate startOfYear = LocalDate.of(year, Month.JANUARY, 1);
+        LocalDate endOfYear = LocalDate.of(year, Month.DECEMBER, 31);
+
+        Specification<VacationEntity> spec = Specification.allOf(
+            VacationSpecs.employeeCuiEquals(employeeCui),
+            VacationSpecs.periodOverlaps(startOfYear, endOfYear),
+            Specification.anyOf(
+                VacationSpecs.statusEquals(VacationStatus.APROBADA),
+                VacationSpecs.statusEquals(VacationStatus.FIRMADO)
+            )
+        );
+
+        return jpaRepository.count(spec) > 0;
     }
 }
 

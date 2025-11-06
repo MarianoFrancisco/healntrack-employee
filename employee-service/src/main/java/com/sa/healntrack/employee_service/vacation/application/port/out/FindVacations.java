@@ -11,4 +11,5 @@ public interface FindVacations {
     List<Vacation> findAll(FindAllVacationsQuery query);
     Optional<Vacation> findById(UUID id);
     boolean existsByEmployeeAndStatus(Employee employee, VacationStatus status);
+    boolean existsApprovedOrSignedVacationInYear(String employeeCui, int year);
 }

@@ -12,6 +12,7 @@ import com.sa.healntrack.employee_service.employment.application.exception.Emplo
 import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment.domain.Employee;
 import com.sa.healntrack.employee_service.vacation.application.exception.DuplicateVacationRequestException;
+import com.sa.healntrack.employee_service.vacation.application.exception.EmployeeHasApprovedVacationException;
 import com.sa.healntrack.employee_service.vacation.application.exception.InsufficientAdvanceException;
 import com.sa.healntrack.employee_service.vacation.application.exception.InvalidVacationDurationException;
 import com.sa.healntrack.employee_service.vacation.application.mapper.VacationMapper;
@@ -48,6 +49,11 @@ public class RequestVacationImpl implements RequestVacation {
 
         int maxVacationDays = getConfValue(VACATION_DAYS_KEY);
         int minAdvanceDays = getConfValue(VACATION_CHANGE_ADVANCE_DAYS_KEY);
+        
+        int year = command.startDate().getYear();
+        if (findVacations.existsApprovedOrSignedVacationInYear(employee.getCui().value(), year)) {
+            throw new EmployeeHasApprovedVacationException(employee.getCui().value(), year);
+        }
 
         if (findVacations.existsByEmployeeAndStatus(employee, VacationStatus.PENDIENTE)) {
             throw new DuplicateVacationRequestException(employee.getCui().value());

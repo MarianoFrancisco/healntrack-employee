@@ -57,7 +57,7 @@ public class VacationController {
             @RequestBody @Valid ReviewVacationRequestDTO requestDTO) {
 
         ReviewVacationCommand command = new ReviewVacationCommand(
-                requestDTO.reviewerEmail(),
+                requestDTO.reviewerCui(),
                 requestDTO.reviewedAt()
         );
 
@@ -71,7 +71,7 @@ public class VacationController {
             @RequestBody @Valid ReviewVacationRequestDTO requestDTO) {
 
         ReviewVacationCommand command = new ReviewVacationCommand(
-                requestDTO.reviewerEmail(),
+                requestDTO.reviewerCui(),
                 requestDTO.reviewedAt()
         );
 
