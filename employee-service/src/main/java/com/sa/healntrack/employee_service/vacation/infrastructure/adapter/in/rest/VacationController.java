@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.sa.healntrack.employee_service.vacation.application.port.in.ApproveVacation;
 import com.sa.healntrack.employee_service.vacation.application.port.in.FindAllVacations;
+import com.sa.healntrack.employee_service.vacation.application.port.in.FindVacationById;
 import com.sa.healntrack.employee_service.vacation.application.port.in.RejectVacation;
 import com.sa.healntrack.employee_service.vacation.application.port.in.RequestVacation;
 import com.sa.healntrack.employee_service.vacation.application.port.in.command.FindAllVacationsQuery;
@@ -34,6 +35,7 @@ public class VacationController {
     private final ApproveVacation approveVacation;
     private final RejectVacation rejectVacation;
     private final FindAllVacations findAllVacations;
+    private final FindVacationById findVacationById;
 
     @PostMapping
     public ResponseEntity<VacationResponseDTO> requestVacation(
@@ -49,6 +51,11 @@ public class VacationController {
         Vacation vacation = requestVacation.requestVacation(command);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(VacationRestMapper.toResponseDTO(vacation));
+    }
+        @GetMapping("/{id}")
+    public ResponseEntity<VacationResponseDTO> getVacationById(@PathVariable UUID id) {
+        Vacation vacation = findVacationById.findVacationById(id);
+        return ResponseEntity.ok(VacationRestMapper.toResponseDTO(vacation));
     }
 
     @PostMapping("/{id}/approve")
