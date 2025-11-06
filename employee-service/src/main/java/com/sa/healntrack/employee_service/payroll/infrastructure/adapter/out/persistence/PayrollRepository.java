@@ -2,6 +2,7 @@ package com.sa.healntrack.employee_service.payroll.infrastructure.adapter.out.pe
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
@@ -45,5 +46,11 @@ public class PayrollRepository implements FindPayrolls, StorePayroll {
     @Override
     public boolean existsByStartDateAndEndDate(LocalDate startDate, LocalDate endDate) {
         return jpaRepository.existsByStartDateAndEndDate(startDate, endDate);
+    }
+
+    @Override
+    public Optional<Payroll> findOverlapPayroll(LocalDate startDate, LocalDate endDate) {
+        return jpaRepository.findOne(PayrollSpecs.periodOverlaps(startDate, endDate))
+                .map(PayrollEntityMapper::toDomain);
     }
 }

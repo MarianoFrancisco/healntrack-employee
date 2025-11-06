@@ -4,9 +4,9 @@ POST {{rootUrl}}
 Content-Type: application/json
 
 {
-  "startDate": "2025-07-01",
-  "endDate": "2025-07-31",
-  "payDay": "2025-07-31",
+  "startDate": "2023-08-11",
+  "endDate": "2023-08-20",
+  "payDay": "2023-08-20",
   "type": "REGULAR"
 }
 

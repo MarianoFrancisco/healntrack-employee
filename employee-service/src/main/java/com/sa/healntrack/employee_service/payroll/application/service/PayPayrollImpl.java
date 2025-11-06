@@ -9,6 +9,7 @@ import com.sa.healntrack.employee_service.employment.application.port.in.find_em
 import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment.domain.Employee;
 import com.sa.healntrack.employee_service.payroll.application.exception.DuplicatePayrollException;
+import com.sa.healntrack.employee_service.payroll.application.exception.PeriodOverlapsException;
 import com.sa.healntrack.employee_service.payroll.application.mapper.PayrollMapper;
 import com.sa.healntrack.employee_service.payroll.application.port.in.PayPayroll;
 import com.sa.healntrack.employee_service.payroll.application.port.in.command.PayPayrollCommand;
@@ -32,6 +33,17 @@ public class PayPayrollImpl implements PayPayroll {
         if (findPayrolls.existsByStartDateAndEndDate(command.startDate(), command.endDate())) {
             throw new DuplicatePayrollException(command.startDate(), command.endDate());
         }
+
+        findPayrolls.findOverlapPayroll(command.startDate(), command.endDate())
+            .ifPresent(overlappingPayroll -> {
+                throw new PeriodOverlapsException(
+                    command.startDate(),
+                    command.endDate(),
+                    overlappingPayroll.getPeriod().startDate(),
+                    overlappingPayroll.getPeriod().endDate()
+                );
+            });
+        
 
         Payroll payroll = PayrollMapper.toDomain(command);
         List<Employee> employees = findEmployees.findAllEmployees(FindAllEmployeesQuery.activeOnly(true));
