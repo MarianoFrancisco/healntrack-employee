@@ -11,6 +11,7 @@ import com.sa.healntrack.employee_service.common.application.port.out.Notificati
 import com.sa.healntrack.employee_service.configuration.application.port.out.FindConfs;
 import com.sa.healntrack.employee_service.configuration.domain.Configuration;
 import com.sa.healntrack.employee_service.employment.application.exception.EmployeeNotFoundException;
+import com.sa.healntrack.employee_service.employment.application.port.out.FindDepartmentManagers;
 import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment.domain.Employee;
 import com.sa.healntrack.employee_service.vacation.application.exception.DuplicateVacationRequestException;
@@ -38,6 +39,7 @@ public class RequestVacationImpl implements RequestVacation {
     private final FindEmployees findEmployees;
     private final FindConfs findConfs;
     private final StoreVacation storeVacation;
+    private final FindDepartmentManagers findDepartmentManagers;
     private final NotificationPublisher notificationPublisher;
 
     @Override
@@ -77,7 +79,8 @@ public class RequestVacationImpl implements RequestVacation {
         Vacation savedVacation = storeVacation.save(vacation);
 
         sendNotificationEmail(savedVacation, employee, false);
-        sendNotificationEmail(savedVacation, savedVacation.getApprovedBy().getEmployee(), true);
+        findDepartmentManagers.findManagerByDepartmentAndIsActive(employee.getDepartment().getCode().value(), true)
+                .ifPresent(manager -> sendNotificationEmail(savedVacation, manager.getEmployee(), true));
 
         return savedVacation;
     }

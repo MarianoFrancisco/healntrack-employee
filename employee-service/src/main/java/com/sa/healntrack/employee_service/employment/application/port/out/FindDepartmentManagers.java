@@ -13,4 +13,5 @@ public interface FindDepartmentManagers {
     Optional<DepartmentManager> findDepartmentManagerByEmployeeAndIsActive(Employee employee, boolean isActive);
     Optional<DepartmentManager> findByCuiAndIsActive(String cui, boolean isActive);
     boolean existsByDepartmentAndIsActive(Department department, boolean isActive);
+    Optional<DepartmentManager> findManagerByDepartmentAndIsActive(String departmentCode, boolean isActive);
 }
