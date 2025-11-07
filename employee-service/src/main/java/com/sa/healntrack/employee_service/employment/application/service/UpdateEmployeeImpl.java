@@ -12,6 +12,7 @@ import com.sa.healntrack.employee_service.employment.application.port.in.update_
 import com.sa.healntrack.employee_service.employment.application.port.in.update_employee.UpdateEmployeeCommand;
 import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment.application.port.out.StoreEmployee;
+import com.sa.healntrack.employee_service.employment.application.port.out.messaging.PublishEmployeeUpdated;
 import com.sa.healntrack.employee_service.employment.domain.Employee;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class UpdateEmployeeImpl implements UpdateEmployee {
     private final StoreEmployee storeEmployee;
     private final FindEmployees findEmployees;
     private final NotificationPublisher notificationPublisher;
+    private final PublishEmployeeUpdated publishEmployeeUpdated;
 
     @Override
     public Employee updateEmployee(String cui, UpdateEmployeeCommand command) {
@@ -32,6 +34,7 @@ public class UpdateEmployeeImpl implements UpdateEmployee {
         Employee updated = EmployeeMapper.updateEmployee(existing, command);
         Employee saved = storeEmployee.save(updated);
         sendNotificationEmail(saved, command);
+        publishEmployeeUpdated.publishUpdatedMessage(saved);
         return saved;
     }
 
