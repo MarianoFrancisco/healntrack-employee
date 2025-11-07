@@ -12,6 +12,7 @@ import com.sa.healntrack.employee_service.department.application.port.out.persis
 import com.sa.healntrack.employee_service.department.domain.Department;
 import com.sa.healntrack.employee_service.employment.application.exception.DuplicateEmailException;
 import com.sa.healntrack.employee_service.employment.application.exception.DuplicateEmployeeException;
+import com.sa.healntrack.employee_service.employment.application.exception.DuplicateEmployeeNITException;
 import com.sa.healntrack.employee_service.employment.application.mapper.EmployeeMapper;
 import com.sa.healntrack.employee_service.employment.application.port.in.hire_employee.HireEmployee;
 import com.sa.healntrack.employee_service.employment.application.port.in.hire_employee.HireEmployeeCommand;
@@ -38,8 +39,12 @@ public class HireEmployeeImpl implements HireEmployee {
 
     @Override
     public Employee hireEmployee(HireEmployeeCommand command) {
-        if (findEmployees.existByCui(command.cui()) || findEmployees.existByNit(command.nit())) {
+        if (findEmployees.existByCui(command.cui())) {
             throw new DuplicateEmployeeException(command.cui());
+        }
+
+        if (findEmployees.existByNit(command.nit())) {
+            throw new DuplicateEmployeeNITException(command.nit());
         }
 
         if (findEmployees.existByEmail(command.email())) {
