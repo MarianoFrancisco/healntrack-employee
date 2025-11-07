@@ -80,7 +80,7 @@ public class RequestVacationImpl implements RequestVacation {
 
         sendNotificationEmail(savedVacation, employee, false);
         findDepartmentManagers.findManagerByDepartmentAndIsActive(employee.getDepartment().getCode().value(), true)
-                .ifPresent(manager -> sendNotificationEmail(savedVacation, manager.getEmployee(), true));
+                .ifPresent(manager -> sendNotificationEmail(savedVacation, employee, true));
 
         return savedVacation;
     }
