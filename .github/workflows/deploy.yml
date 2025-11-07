@@ -79,6 +79,10 @@ jobs:
 
             sudo docker stop employee-service || true
             sudo docker rm employee-service || true
+            sudo docker container prune -f || true
+            sudo docker image prune -af || true
+            sudo docker builder prune -af || true
+            sudo docker volume prune -f || true
 
             sudo docker run -d --name employee-service \
               -p "$PORT:$PORT" \
