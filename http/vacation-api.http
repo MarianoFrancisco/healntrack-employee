@@ -1,0 +1,59 @@
+@rootUrl = http://localhost:8005/api/v1/employees/vacations
+
+### Solicitar vacaciones para empleado 1
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "employeeCui": "1000000000001",
+  "requestedAt": "2025-11-01",
+  "startDate": "2025-11-10",
+  "endDate": "2025-11-19"
+}
+
+### Solicitar vacaciones para empleado 3
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "employeeCui": "1000000000002",
+  "requestedAt": "2025-11-03",
+  "startDate": "2025-12-01",
+  "endDate": "2025-12-10"
+}
+
+### Aprobar vacaciones (empleado 1) - usar UUID que devuelve la creación de vacaciones
+POST {{rootUrl}}/b115f9a0-1088-4149-abdb-2b9bae356b36/approve
+Content-Type: application/json
+
+{
+  "reviewerEmail": "juan.perez@hospital.com",
+  "reviewedAt": "2025-11-04"
+}
+
+### Rechazar vacaciones (empleado 3) - usar UUID que devuelve la creación de vacaciones
+POST {{rootUrl}}/b115f9a0-1088-4149-abdb-2b9bae356b36/reject
+Content-Type: application/json
+
+{
+  "reviewerEmail": "juan.perez@hospital.com",
+  "reviewedAt": "2025-11-04"
+}
+
+### Listar todas las vacaciones
+GET {{rootUrl}}
+
+### Filtrar vacaciones por empleado (empleado 1)
+GET {{rootUrl}}?employee=1000000000001
+
+### Filtrar vacaciones por departamento (MED-025)
+GET {{rootUrl}}?department=MED-025
+
+### Filtrar vacaciones por estado (APROBADA)
+GET {{rootUrl}}?status=APROBADA
+
+### Filtrar vacaciones por rango de fechas
+GET {{rootUrl}}?startDate=2006-11-01&endDate=2006-11-02
+
+### Obtener una vacación por ID
+GET {{rootUrl}}/fec14999-7627-4b0a-8268-397a08586b3e

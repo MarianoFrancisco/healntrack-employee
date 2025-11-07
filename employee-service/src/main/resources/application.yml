@@ -1,0 +1,43 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: employee-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:employee_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASS:Nbpjxdxd%2}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    # hibernate:
+    #   ddl-auto: update
+
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST:35.207.55.157}:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+      acks: all
+      retries: 5
+
+topics:
+  notification:
+    requested: ${TOPIC_NOTIFICATION_REQUESTED:notification.requested}
+
+server:
+  port: ${PORT:8005}
+  shutdown: graceful
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: ${PUBLIC_HOST:localhost}
+    instance-id: ${eureka.instance.ip-address}:${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+

@@ -1,0 +1,377 @@
+@rootUrl = http://localhost:8005/api/v1/employees
+# @rootUrl = http://35.207.55.157:8000/api/v1/employees
+
+### 1. Contratar un nuevo empleado
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1234567890123",
+  "nit": "123456789",
+  "fullname": "Juan Pérez López",
+  "email": "tonoju123456@gmail.com",
+  "phoneNumber": "12345678",
+  "birthDate": "1985-05-15",
+  "departmentCode": "MED-025",
+  "startDate": "2024-01-15",
+  "salary": 15000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como médico general"
+}
+
+### 2. Contratar otro empleado para pruebas
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "9876543210987",
+  "nit": "987654321",
+  "fullname": "María García Hernández",
+  "email": "maria.garcia@hospital.com",
+  "phoneNumber": "87654321",
+  "birthDate": "1990-08-22",
+  "departmentCode": "ENF-025",
+  "startDate": "2024-01-20",
+  "salary": 8000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Enfermera jefe"
+}
+
+### 3. Obtener todos los empleados
+GET {{rootUrl}}
+
+### 4. Obtener empleados con filtros
+GET {{rootUrl}}?q=Juan&department=MED-025&isActive=true
+
+### 5. Obtener empleado por CUI
+GET {{rootUrl}}/1234567890123
+
+### 5. Obtener empleado por ID
+GET {{rootUrl}}/id/6334794e-ac7e-41cd-b244-b2b2515e9ae1
+
+### 6. Promover empleado a gerente de departamento
+POST {{rootUrl}}/1234567890123/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 5000.00,
+  "departmentCode": "ADM-025",
+  "date": "2024-06-01",
+  "notes": "Ascenso a jefe de departamento de Medicina General"
+}
+
+### 7. Aumento de salario
+POST {{rootUrl}}/9876543210987/salary-increase
+Content-Type: application/json
+
+{
+  "salaryIncrease": 2000.00,
+  "date": "2024-06-15",
+  "notes": "Aumento por desempeño excepcional"
+}
+
+### 8. Terminar contrato de empleado
+DELETE {{rootUrl}}/9876543210987
+Content-Type: application/json
+
+{
+  "date": "2024-11-01",
+  "terminationType": "RENUNCIA",
+  "reason": "Renuncia voluntaria"
+}
+
+### 9. Recontratar empleado
+POST {{rootUrl}}/9876543210987/rehire
+Content-Type: application/json
+
+{
+  "phoneNumber": "99998888",
+  "departmentCode": "ADM-025",
+  "newSalary": 5000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "startDate": "2025-01-01",
+  "notes": "Recontratación en administración"
+}
+
+### 10. Intentar promover a un empleado que ya es gerente (debería fallar)
+POST {{rootUrl}}/9876543210987/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 3000.00,
+  "departmentCode": "ADM-025",
+  "date": "2025-01-02",
+  "notes": "Segundo ascenso - debería fallar por gerente duplicado"
+}
+
+### 10. Intentar promover a un empleado que ya es gerente (debería fallar)
+POST {{rootUrl}}/1234567890123/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 3000.00,
+  "departmentCode": "MED-025",
+  "date": "2024-07-01",
+  "notes": "Segundo ascenso - debería fallar por gerente duplicado"
+}
+
+### 11. Promover otro empleado a diferente departamento
+POST {{rootUrl}}/9876543210987/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 3000.00,
+  "departmentCode": "ADM-025",
+  "date": "2024-09-01",
+  "notes": "Ascenso a gerente administrativo"
+}
+
+### 12. Obtener empleados activos
+GET {{rootUrl}}?isActive=true
+
+### 13. Obtener empleados inactivos
+GET {{rootUrl}}?isActive=false
+
+### 14. Buscar empleados por nombre
+GET {{rootUrl}}?q=María
+
+### 15. Buscar empleados por departamento
+GET {{rootUrl}}?department=ADM-025
+
+### 16. Caso de error: Contratar empleado con CUI inválido
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "123",
+  "nit": "123456789",
+  "fullname": "Test Error",
+  "email": "test@hospital.com",
+  "phoneNumber": "12345678",
+  "birthDate": "1990-01-01",
+  "departmentCode": "MED-025",
+  "startDate": "2024-01-01",
+  "salary": 5000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01
+}
+
+### 17. Caso de error: Contratar empleado con departamento inexistente
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1112223334445",
+  "nit": "111222333",
+  "fullname": "Empleado Test",
+  "email": "test2@hospital.com",
+  "phoneNumber": "11112222",
+  "birthDate": "1995-03-10",
+  "departmentCode": "XXX-999",
+  "startDate": "2024-01-01",
+  "salary": 5000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01
+}
+
+### 18. Caso de error: Promover empleado inexistente
+POST {{rootUrl}}/0000000000000/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 1000.00,
+  "departmentCode": "MED-025",
+  "date": "2024-06-01"
+}
+
+### 1. Obtener todos los períodos de empleo (sin filtros)
+GET {{rootUrl}}/history
+
+### 2. Buscar períodos por empleado (nombre, CUI o NIT)
+GET {{rootUrl}}/history?employee=Juan
+
+### 2. Buscar períodos por departamento (código o nombre)
+GET {{rootUrl}}/history?department=FAR
+
+### 3. Buscar períodos con múltiples filtros (empleado, departamento y fechas)
+GET {{rootUrl}}/history?employee=1234567890123&department=MED-025&startDateFrom=2025-01-01
+
+### 4. Buscar a department managers con filtros
+GET {{rootUrl}}/managers?department=Enfe
+
+### 5. Obtener todos los department managers
+GET {{rootUrl}}/managers
+
+### 1. Contratar empleado en departamento MED-025
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1234567890001",
+  "nit": "123456780",
+  "fullname": "Carlos Rodríguez Méndez",
+  "email": "carlos.rodriguez@hospital.com",
+  "phoneNumber": "55550001",
+  "birthDate": "1980-03-10",
+  "departmentCode": "MED-025",
+  "startDate": "2024-01-10",
+  "salary": 12000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como médico"
+}
+
+### Actualizar información de empleado
+PATCH {{rootUrl}}/1234567890001
+Content-Type: application/json
+
+{
+  "fullname": "Carlos Rodríguez Méndez Actualizado",
+  "phoneNumber": "88887777",
+  "igssPercent": 0.05,
+  "irtraPercent": 0.02
+}
+
+### 2. Ascender a Carlos a manager de MED-025
+POST {{rootUrl}}/1234567890001/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 8000.00,
+  "departmentCode": "MED-025",
+  "date": "2024-03-01",
+  "notes": "Ascenso a jefe de departamento de Medicina"
+}
+
+### 3. Despedir a Carlos
+POST {{rootUrl}}/1234567890001/terminate
+Content-Type: application/json
+
+{
+  "date": "2024-06-15",
+  "terminationType": "DESPIDO",
+  "reason": "Recorte de personal"
+}
+
+### 4. Recontratar a Carlos en departamento ENF-025
+POST {{rootUrl}}/1234567890001/rehire
+Content-Type: application/json
+
+{
+  "phoneNumber": "55550002",
+  "departmentCode": "ENF-025",
+  "newSalary": 10000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "startDate": "2024-08-01",
+  "notes": "Recontratación en departamento de Enfermería"
+}
+
+### 5. Ascender a Carlos a manager de ENF-025
+POST {{rootUrl}}/1234567890001/promote
+Content-Type: application/json
+
+{
+  "salaryIncrease": 6000.00,
+  "departmentCode": "ENF-025",
+  "date": "2024-09-01",
+  "notes": "Ascenso a jefe de departamento de Enfermería"
+}
+
+### 6. Verificar empleados activos
+GET {{rootUrl}}?isActive=true
+
+### 7. Verificar managers actuales
+GET {{rootUrl}}/managers
+
+### 8. Verificar historial completo de Carlos
+GET {{rootUrl}}/history?employee=1234567890001
+
+### empleado 1
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000001",
+  "nit": "110000001",
+  "fullname": "Juan Pérez López",
+  "email": "juan.perez@hospital.com",
+  "phoneNumber": "55510001",
+  "birthDate": "1985-05-15",
+  "departmentCode": "MED-025",
+  "startDate": "2024-01-15",
+  "salary": 15000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como médico general"
+}
+
+### empleado 2
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000002",
+  "nit": "110000002",
+  "fullname": "Ana Gómez Martínez",
+  "email": "ana.gomez@hospital.com",
+  "phoneNumber": "55510002",
+  "birthDate": "1990-03-22",
+  "departmentCode": "MED-025",
+  "startDate": "2024-02-01",
+  "salary": 14000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como enfermera"
+}
+
+### empleado 3
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000003",
+  "nit": "110000003",
+  "fullname": "Carlos Méndez Rivera",
+  "email": "carlos.mendez@hospital.com",
+  "phoneNumber": "55510003",
+  "birthDate": "1982-11-10",
+  "departmentCode": "ADM-025",
+  "startDate": "2024-03-10",
+  "salary": 13000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como administrativo"
+}
+
+### empleado 4
+POST {{rootUrl}}
+Content-Type: application/json
+
+{
+  "cui": "1000000000004",
+  "nit": "110000004",
+  "fullname": "María López Castillo",
+  "email": "maria.lopez@hospital.com",
+  "phoneNumber": "55510004",
+  "birthDate": "1995-07-08",
+  "departmentCode": "ADM-025",
+  "startDate": "2024-04-01",
+  "salary": 12000.00,
+  "igssPercent": 0.04,
+  "irtraPercent": 0.01,
+  "notes": "Contratación inicial como asistente administrativo"
+}
+
+### Despedir empleado 2
+DELETE  {{rootUrl}}/1000000000002
+Content-Type: application/json
+
+{
+  "date": "2025-07-31",
+  "terminationType": "DESPIDO",
+  "reason": "Rendimiento insuficiente"
+}
