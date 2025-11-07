@@ -19,6 +19,7 @@ import com.sa.healntrack.employee_service.employment.application.port.in.hire_em
 import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployees;
 import com.sa.healntrack.employee_service.employment.application.port.out.StoreEmployee;
 import com.sa.healntrack.employee_service.employment.application.port.out.StoreEmployment;
+import com.sa.healntrack.employee_service.employment.application.port.out.messaging.PublishEmployeeCreated;
 import com.sa.healntrack.employee_service.employment.domain.Employee;
 import com.sa.healntrack.employee_service.employment.domain.Employment;
 import com.sa.healntrack.employee_service.employment.domain.PeriodType;
@@ -36,6 +37,7 @@ public class HireEmployeeImpl implements HireEmployee {
     private final StoreEmployee storeEmployee;
     private final StoreEmployment storeEmployment;
     private final NotificationPublisher notificationPublisher;
+    private final PublishEmployeeCreated publishEmployeeCreated;
 
     @Override
     public Employee hireEmployee(HireEmployeeCommand command) {
@@ -69,7 +71,7 @@ public class HireEmployeeImpl implements HireEmployee {
         storeEmployment.save(employmentPeriod);
         
         sendNotificationEmail(employee);
-        
+        publishEmployeeCreated.publishCreatedMessage(employee);
         return employee;
     }
 
