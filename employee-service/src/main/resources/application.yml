@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:employee_db}
     username: ${DB_USER:postgres}
-    password: ${DB_PASS:Nbpjxdxd%2}
+    password: ${DB_PASS:12345}
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -15,7 +15,7 @@ spring:
     #   ddl-auto: update
 
   kafka:
-    bootstrap-servers: ${KAFKA_HOST:35.207.55.157}:9092
+    bootstrap-servers: ${KAFKA_HOST:localhost}:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
