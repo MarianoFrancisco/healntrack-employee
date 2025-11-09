@@ -15,4 +15,5 @@ public interface FindEmployees {
     boolean existByCui(String cui);
     boolean existByNit(String nit);
     boolean existByEmail(String email);
+    boolean existByDepartmentAndIsActive(String departmentCode, boolean isActive);
 }

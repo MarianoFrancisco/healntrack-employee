@@ -85,5 +85,14 @@ public class EmployeeRepository implements FindEmployees, StoreEmployee {
         return jpaRepository.findById(id)
                 .map(EmployeeEntityMapper::toDomain);
     }
+
+    @Override
+    public boolean existByDepartmentAndIsActive(String departmentCode, boolean isActive) {
+        Specification<EmployeeEntity> spec = Specification.allOf(
+          EmployeeSpecs.departmentCodeEquals(departmentCode),
+          EmployeeSpecs.activeEquals(isActive)  
+        );
+        return jpaRepository.count(spec) > 0;
+    }
     
 }

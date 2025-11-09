@@ -21,6 +21,4 @@ public class FindDepartmentByCodeImpl implements FindDepartmentByCode {
         return findDepartments.findDepartmentByCode(code)
             .orElseThrow(() -> new DepartmentNotFoundException(code));
     }
-
-    
 }

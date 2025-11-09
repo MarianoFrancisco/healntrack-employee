@@ -3,11 +3,13 @@ package com.sa.healntrack.employee_service.department.application.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sa.healntrack.employee_service.department.application.exception.DepartmentHasActiveEmployeesException;
 import com.sa.healntrack.employee_service.department.application.exception.DepartmentNotFoundException;
 import com.sa.healntrack.employee_service.department.application.port.in.deactivate_department.DeactivateDepartment;
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.FindDepartments;
 import com.sa.healntrack.employee_service.department.application.port.out.persistence.StoreDepartment;
 import com.sa.healntrack.employee_service.department.domain.Department;
+import com.sa.healntrack.employee_service.employment.application.port.out.FindEmployees;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,13 +19,17 @@ import lombok.RequiredArgsConstructor;
 public class DeactivateDepartmentImpl implements DeactivateDepartment {
     private final StoreDepartment storeDepartment;
     private final FindDepartments findDepartments;
+    private final FindEmployees findEmployees;
 
     @Override
     public void deactivateDepartment(String code) {
         Department department = findDepartments.findDepartmentByCode(code)
             .orElseThrow(() -> new DepartmentNotFoundException(code));
 
-        // TODO: Check for related active employees before deactivation
+        if (findEmployees.existByDepartmentAndIsActive(department.getCode().value(), true)) {
+            throw new DepartmentHasActiveEmployeesException(code);
+        }
+        
         department.deactivate();
 
         storeDepartment.save(department);
